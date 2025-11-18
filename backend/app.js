@@ -6,7 +6,7 @@ import session from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import prisma from "./db/prisma.js";
 import passport from "passport";
-import loginRouter from "./routes/loginRouter.js";
+import authRouter from "./routes/authRouter.js";
 const app = express();
 app.use(
   cors({
@@ -36,7 +36,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/user", loginRouter);
+app.use("/auth", authRouter);
 app.use("/*w", (req, res) => {
   return res.json({ msg: "Page not found." });
 });

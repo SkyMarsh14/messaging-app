@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import prisma from "../db/prisma.js";
 import { createUserValidation, loginValidation } from "../lib/validators.js";
 import passport from "passport";
+import bcrypt from "bcryptjs";
 const loginController = {
   createUser: [
     createUserValidation,
@@ -11,11 +12,12 @@ const loginController = {
         return res.status(400).json(errors.array());
       }
       const { username, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
       try {
         await prisma.user.create({
           data: {
             username,
-            password,
+            password: hashedPassword,
           },
         });
       } catch (err) {
