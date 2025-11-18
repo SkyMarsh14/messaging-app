@@ -10,7 +10,7 @@ passport.use(
           username,
         },
       });
-      if (!user) return done(null, false, { message: "User not found." });
+      if (!user) return done(null, false, { msg: "User not found." });
       const match = password === user.password;
       if (!match)
         return done(null, false, {
