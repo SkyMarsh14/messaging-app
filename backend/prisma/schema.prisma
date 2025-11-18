@@ -30,10 +30,11 @@ model Session {
 }
 
 model Message {
-  id         String @id @default(uuid())
-  content    String @db.VarChar(1000)
-  receiver   User   @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  id         String   @id @default(uuid())
+  content    String   @db.VarChar(1000)
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
   receiverId String
-  author     User   @relation("SentMessages", fields: [authorId], references: [id])
+  author     User     @relation("SentMessages", fields: [authorId], references: [id])
   authorId   String
+  createdAt  DateTime @default(now())
 }
