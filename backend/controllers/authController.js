@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import prisma from "../db/prisma.js";
 import { createUserValidation, loginValidation } from "../lib/validators.js";
-import passport from "passport";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const loginController = {
   createUser: [
@@ -24,30 +24,37 @@ const loginController = {
         throw new Error(err);
       }
       return res.json({
-        msg: "User successfully created.",
+        msg: "User successfully created",
         userCreation: true,
       });
     },
   ],
   login: [
     loginValidation,
-    (req, res) => {
-      passport.authenticate("local", (err, user, info) => {
-        if (err) {
-          return res.status(500).json({ msg: "Server error" });
-        }
-        if (!user) {
-          return res.status(401).json({ msg: "Invalid credentials" });
-        }
-        req.logIn(user, (err) => {
-          if (err) return res.status(500).json({ msg: "Login failed" });
-          const { id, username } = user;
-          return res.json({
-            msg: "User successfully logged in",
-            user: { id, username },
-          });
+    async (req, res) => {
+      const { username, password } = req.body;
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
         });
-      })(req, res);
+      }
+      const user = await prisma.user.findUnique({
+        where: {
+          username: req.body.username,
+        },
+      });
+      if (!user) return res.json({ msg: "User doesn't exist" });
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        return res.json({ msg: "Incorrect credentials" });
+      }
+      const token = jwt.sign(
+        { id: user.id, username },
+        process.env.TOKEN_SECRET,
+        { expiresIn: "1h" }
+      );
+      res.json({ token });
     },
   ],
 };

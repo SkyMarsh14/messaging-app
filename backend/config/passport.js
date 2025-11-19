@@ -1,41 +1,22 @@
 import passport from "passport";
-import LocalStrategy from "passport-local";
+import { ExtractJwt, Strategy } from "passport-jwt";
 import prisma from "../db/prisma.js";
-import bcrypt from "bcryptjs";
 
+const opts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.TOKEN_SECRET,
+};
 passport.use(
-  new LocalStrategy(async function (username, password, done) {
+  new Strategy(opts, async (payload, done) => {
     try {
       const user = await prisma.user.findUnique({
         where: {
-          username,
+          id: payload.id,
         },
       });
-      if (!user) return done(null, false, { msg: "User not found." });
-      const match = bcrypt.compare(password, user.password);
-      if (!match)
-        return done(null, false, {
-          message: "Either password or username is wrong.",
-        });
-      return done(null, user);
+      return user ? done(null, user) : done(null, false);
     } catch (err) {
-      return done(err);
+      return done(err, false);
     }
   })
 );
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});

@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "dev": "node --watch app.js",
-    "resetdb":"npx prisma db push --force-reset && npx prisma db seed"
+    "resetdb": "npx prisma db push --force-reset && npx prisma db seed"
   },
   "keywords": [],
   "author": "",
@@ -28,7 +28,9 @@
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "express-validator": "^7.3.0",
+    "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0"
   }
 }
