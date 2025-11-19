@@ -39,49 +39,6 @@ async function main() {
     },
   ];
 
-  // --- Sessions ---
-  const sessions = [
-    {
-      id: "sess:a12dd1f3becc44a899d1d2ce1e11b101",
-      sid: "a12dd1f3becc44a899d1d2ce1e11b101",
-      data: JSON.stringify({
-        cookie: {
-          path: "/",
-          httpOnly: true,
-          maxAge: 1800000,
-        },
-        userId: "a1f3e3bb-7df1-4a1b-9f90-141c0f3fb001",
-      }),
-      expiresAt: new Date("2025-02-15T14:10:00.000Z"),
-    },
-    {
-      id: "sess:b22ee2f3ceaa44bbb9d2f3cc2e11b202",
-      sid: "b22ee2f3ceaa44bbb9d2f3cc2e11b202",
-      data: JSON.stringify({
-        cookie: {
-          path: "/",
-          httpOnly: true,
-          maxAge: 1800000,
-        },
-        userId: "c4a52d34-6bdf-47b4-8e52-dc22a7d80002",
-      }),
-      expiresAt: new Date("2025-02-15T14:45:00.000Z"),
-    },
-    {
-      id: "sess:c33ff3d4deaa55ccc9e3f4dd3f22c303",
-      sid: "c33ff3d4deaa55ccc9e3f4dd3f22c303",
-      data: JSON.stringify({
-        cookie: {
-          path: "/",
-          httpOnly: true,
-          maxAge: 1800000,
-        },
-        userId: "e21af723-0e82-44cc-b621-12ef900d0003",
-      }),
-      expiresAt: new Date("2025-02-15T15:12:00.000Z"),
-    },
-  ];
-
   // --- Messages ---
   const messages = [
     {
@@ -138,7 +95,6 @@ async function main() {
   // --- Insert Data ---
   await prisma.$transaction([
     prisma.user.createMany({ data: users }),
-    prisma.session.createMany({ data: sessions }),
     prisma.message.createMany({ data: messages }),
   ]);
 
