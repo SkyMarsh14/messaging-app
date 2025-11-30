@@ -1,18 +1,25 @@
 import prisma from "../db/prisma.js";
+import getChatRoom from "../lib/getChatRoom.js";
 const messageController = {
   send: async (req, res) => {
-    const { content, chatRoomId } = req.body;
+    const { content, receiverId } = req.body;
+    const senderId = req.user.id;
+    if (receiverId === senderId) {
+      throw new Error("Receiver Id and sedner Id must not be identical");
+    }
     try {
+      const chatRoom = await getChatRoom([senderId, receiverId]);
       const message = await prisma.message.create({
         data: {
-          authorId: req.user.id,
-          chatRoomId: chatRoomId,
+          authorId: senderId,
           content,
+          chatRoomId: chatRoom.id,
         },
       });
       return res.json({
         msg: "Message successfully created",
         createdMessage: message,
+        chatRoom,
       });
     } catch (err) {
       return res.json({ msg: "Sending message failed", error: err });

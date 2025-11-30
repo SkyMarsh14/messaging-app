@@ -1,5 +1,6 @@
 import prisma from "../db/prisma.js";
 import bcrypt from "bcryptjs";
+import getChatRoom from "../lib/getChatRoom.js";
 
 async function main() {
   // --- Hash passwords ---
@@ -91,13 +92,26 @@ async function main() {
       createdAt: new Date("2025-02-15T12:12:00.000Z"),
     },
   ];
-
   // --- Insert Data ---
-  await prisma.$transaction([
-    prisma.user.createMany({ data: users }),
-    prisma.message.createMany({ data: messages }),
-  ]);
-
+  const userData = await prisma.user.createMany({
+    data: users,
+    skipDuplicates: true,
+  });
+  const messageData = await Promise.all(
+    messages.map(async (m) => {
+      const chatRoom = await getChatRoom([m.authorId, m.receiverId]);
+      return {
+        id: m.id,
+        content: m.content,
+        authorId: m.authorId,
+        chatRoomId: chatRoom.id,
+      };
+    })
+  );
+  await prisma.message.createMany({
+    data: messageData,
+    skipDuplicates: true,
+  });
   console.log("🌱 Database seeded successfully!");
 }
 
