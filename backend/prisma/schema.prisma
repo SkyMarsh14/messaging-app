@@ -15,11 +15,23 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  username     String         @unique @db.VarChar(30)
-  password     String
-  sentMessages Message[]      @relation("SentMessages")
-  memberships  ChatRoomUser[]
+  id            String         @id @default(uuid())
+  username      String         @unique @db.VarChar(30)
+  password      String
+  bio           String?
+  profile       File?          @relation(fields: [profileFileId], references: [id])
+  profileFileId Int?
+  sentMessages  Message[]      @relation("SentMessages")
+  memberships   ChatRoomUser[]
+}
+
+model File {
+  id         Int      @id @default(autoincrement())
+  url        String
+  size       Int?
+  mimetype   String?
+  created_at DateTime @default(now())
+  users      User[]
 }
 
 model Message {

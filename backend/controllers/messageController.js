@@ -26,28 +26,28 @@ const messageController = {
     }
   },
   getRooms: async (req, res) => {
+    const userId = req.user.id;
     try {
-      const chats = await prisma.user.findUnique({
+      const rooms = await prisma.chatRoomUser.findMany({
         where: {
-          id: req.user.id,
-        },
-        include: {
-          chatRooms: true,
+          userId: userId,
         },
       });
-      res.json({ chats });
+      if (!rooms)
+        res.json({ msg: "No associated room with the user was found." });
     } catch (err) {
-      return res.json({ msg: "Error retriving chat room.", error: err });
+      return res.json({ msg: "Failed to retrive rooms", error: err });
     }
   },
   getMessages: async (req, res) => {
     try {
-      const chatRoomId = req.body.charRoomId;
+      const chatRoomId = req.body.chatRoomId;
       const chats = await prisma.chatRoom.findUnique({
         where: {
           id: chatRoomId,
         },
         include: {
+          chatRoomUsers: true,
           messages: true,
         },
       });
