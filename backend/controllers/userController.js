@@ -40,7 +40,6 @@ const userController = {
       if (bio) {
         data.bio = bio;
       }
-
       const update = await prisma.user.update({
         where: {
           id: req.user.id,
@@ -50,5 +49,6 @@ const userController = {
       res.json(update);
     },
   ],
+  uploadProfile: async (req, res) => {},
 };
 export default userController;
