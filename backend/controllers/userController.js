@@ -1,4 +1,4 @@
-import prisma from "../db/prisma";
+import prisma from "../db/prisma.js";
 import { body } from "express-validator";
 const userController = {
   getConfig: async (req, res) => {
@@ -22,6 +22,12 @@ const userController = {
       .withMessage("Username must be between 4 to 30 characters."),
     body("bio")
       .optional()
+      .custom((value, { req }) => {
+        if (!value && !req.body.bio) {
+          throw new Error("At least one of username or bio must be provided.");
+        }
+        return true;
+      })
       .isLength({ max: 500 })
       .withMessage("Maximum characters of bio is 500 length"),
     async (req, res) => {
@@ -34,12 +40,14 @@ const userController = {
       if (bio) {
         data.bio = bio;
       }
-      await prisma.user.update({
+
+      const update = await prisma.user.update({
         where: {
           id: req.user.id,
         },
         data: data,
       });
+      res.json(update);
     },
   ],
 };
