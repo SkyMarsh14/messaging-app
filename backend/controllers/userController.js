@@ -1,13 +1,11 @@
 import prisma from "../db/prisma.js";
 import { body } from "express-validator";
+import cloudinaryUploader from "../config/cloudinary.js";
 const userController = {
   getConfig: async (req, res) => {
     const userConfig = await prisma.user.findFirst({
       where: {
         id: req.user.id,
-      },
-      omit: {
-        password: true,
       },
     });
     res.json({ config: userConfig });
@@ -49,6 +47,8 @@ const userController = {
       res.json(update);
     },
   ],
-  uploadProfile: async (req, res) => {},
+  uploadProfile: async (req, res) => {
+    const resposne = await cloudinaryUploader(req.file.buffer);
+  },
 };
 export default userController;

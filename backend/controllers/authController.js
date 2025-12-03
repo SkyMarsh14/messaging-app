@@ -43,6 +43,9 @@ const loginController = {
         where: {
           username: req.body.username,
         },
+        omit: {
+          password: false,
+        },
       });
       if (!user) return res.json({ msg: "User doesn't exist" });
       const match = await bcrypt.compare(password, user.password);
