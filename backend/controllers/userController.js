@@ -48,7 +48,8 @@ const userController = {
     },
   ],
   uploadProfile: async (req, res) => {
-    const resposne = await cloudinaryUploader(req.file.buffer);
+    const response = await cloudinaryUploader(req);
+    res.json(response);
   },
 };
 export default userController;
