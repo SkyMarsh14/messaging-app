@@ -1,6 +1,7 @@
 import prisma from "../db/prisma.js";
 import { body } from "express-validator";
-import cloudinaryUploader from "../config/cloudinary.js";
+import profileUploader from "../lib/profileUploader.js";
+import { v2 as cloudinary } from "cloudinary";
 const userController = {
   getConfig: async (req, res) => {
     const userConfig = await prisma.user.findFirst({
@@ -48,8 +49,48 @@ const userController = {
     },
   ],
   uploadProfile: async (req, res) => {
-    const response = await cloudinaryUploader(req);
-    res.json(response);
+    const { profile } = await prisma.user.findFirst({
+      where: {
+        id: req.user.id,
+      },
+      select: {
+        profile: true,
+      },
+    });
+    const addedFile = await profileUploader(req);
+    const fileData = {
+      public_id: addedFile.public_id,
+      url: addedFile.url,
+      created_at: new Date(),
+      mimetype: req.file.mimetype,
+      size: req.file.size,
+    };
+    let newProfile;
+    if (profile) {
+      newProfile = await prisma.file.update({
+        where: {
+          id: profile.id,
+        },
+        data: fileData,
+      });
+      // Deletes old profile picture
+      cloudinary.uploader.destroy(profile.public_id);
+      return res.json({ msg: "Profile picture updated", fileData });
+    } else {
+      newProfile = await prisma.file.create({
+        data: fileData,
+      });
+      // Adds profileFile Id
+      await prisma.user.update({
+        where: {
+          id: req.user.id,
+        },
+        data: {
+          profileFileId: newProfile.id,
+        },
+      });
+    }
+    return res.json({ msg: "Profile picture successfully uploaded", fileData });
   },
 };
 export default userController;

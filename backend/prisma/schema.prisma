@@ -11,6 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -19,18 +20,19 @@ model User {
   password      String
   bio           String?
   profile       File?          @relation(fields: [profileFileId], references: [id])
-  profileFileId Int?
+  profileFileId Int?           @unique
   sentMessages  Message[]      @relation("SentMessages")
   memberships   ChatRoomUser[]
 }
 
 model File {
   id         Int      @id @default(autoincrement())
+  public_id  String
   url        String
   size       Int?
   mimetype   String?
   created_at DateTime @default(now())
-  users      User[]
+  user       User?
 }
 
 model Message {

@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import "./config/passport.js";
+import "./config/cloudinary.js";
 import passport from "passport";
 import authRouter from "./routes/authRouter.js";
 import messageRouter from "./routes/messageRouter.js";
