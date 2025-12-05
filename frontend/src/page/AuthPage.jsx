@@ -18,7 +18,7 @@ const HeroHeadingWrapper = styled.div`
   white-space: nowrap;
 `;
 const HeroHeadline = styled.div`
-  color: #eee;
+  color: ${({ theme }) => theme.primaryTextColor};
   font-family: "Poppins", sans-serif;
   font-size: 5em;
   font-style: normal;
@@ -35,7 +35,7 @@ const LoginToAccess = styled(HeroHeadline)`
   line-height: normal;
 `;
 const RightElement = styled.div`
-  background-color: #925fe2;
+  background-color: ${({ theme }) => theme.primaryBgColor};
   max-width: 70%;
   position: relative;
 `;
