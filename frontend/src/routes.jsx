@@ -1,3 +1,3 @@
-import Login from "./page/Login";
-const routes = [{ path: "/", element: <Login /> }];
+import AuthPage from "./page/AuthPage";
+const routes = [{ path: "/", element: <AuthPage /> }];
 export default routes;

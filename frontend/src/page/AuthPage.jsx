@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import StyledLoginHero from "../components/StyledLoginIcon";
-
+import AuthForm from "../components/AuthForm";
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -40,19 +40,25 @@ const RightElement = styled.div`
   position: relative;
 `;
 
-const Login = () => {
+const AuthPage = ({ type = "login" }) => {
+  const isLogin = type === "login";
+  const headlineText = isLogin
+    ? "Log in to access your account"
+    : "Create your account to start messaging";
   return (
     <Wrapper>
-      <LeftElement></LeftElement>
+      <LeftElement>
+        <AuthForm />
+      </LeftElement>
       <RightElement>
         <HeroHeadingWrapper>
           <HeroHeadline>Welcome to</HeroHeadline>
           <AppName>messaging app</AppName>
-          <LoginToAccess>Log in to access your account</LoginToAccess>
+          <LoginToAccess>{headlineText}</LoginToAccess>
         </HeroHeadingWrapper>
         <StyledLoginHero />
       </RightElement>
     </Wrapper>
   );
 };
-export default Login;
+export default AuthPage;
