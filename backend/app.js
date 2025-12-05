@@ -7,6 +7,8 @@ import passport from "passport";
 import authRouter from "./routes/authRouter.js";
 import messageRouter from "./routes/messageRouter.js";
 import userRouter from "./routes/userRouter.js";
+import errorGlobal from "./middleware/errorGlobal.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -19,6 +21,7 @@ app.use(
   messageRouter
 );
 app.use("/user", passport.authenticate("jwt", { session: false }), userRouter);
+app.use(errorGlobal);
 app.use("/*w", (req, res) => {
   return res.json({
     error: "Requested route does not exist",
