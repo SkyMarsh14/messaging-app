@@ -1,14 +1,18 @@
 import styled from "styled-components";
 import StyledLoginHero from "../components/StyledLoginIcon";
 import AuthForm from "../components/AuthForm";
+import AuthNavigation from "../components/AuthNavigation";
 const Wrapper = styled.div`
   display: flex;
+  font-family: "Poppins", sans-serif;
   height: 100vh;
   width: 100vw;
-  background-color: var(--main-color);
+  background-color: ${({ theme }) => theme.authBgColor};
 `;
 const LeftElement = styled.div`
   flex: 1;
+  margin: auto;
+  max-width: 400px;
 `;
 const HeroHeadingWrapper = styled.div`
   position: absolute;
@@ -19,7 +23,6 @@ const HeroHeadingWrapper = styled.div`
 `;
 const HeroHeadline = styled.div`
   color: ${({ theme }) => theme.primaryTextColor};
-  font-family: "Poppins", sans-serif;
   font-size: 5em;
   font-style: normal;
   font-weight: 700;
@@ -49,6 +52,7 @@ const AuthPage = ({ type = "login" }) => {
     <Wrapper>
       <LeftElement>
         <AuthForm />
+        <AuthNavigation />
       </LeftElement>
       <RightElement>
         <HeroHeadingWrapper>
