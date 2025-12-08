@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
+import { useState } from "react";
+import AuthNavigation from "./AuthNavigation";
+const Wrapper = styled.div`
+  max-width: 400px;
+  margin: auto;
+`;
 const StyledForm = styled.form`
   font-family: "Poppins", sans-serif;
 `;
@@ -70,45 +76,48 @@ const AuthForm = ({ type = "login" }) => {
     });
   }
   return (
-    <StyledForm action="">
-      <StyledLegend>
-        <TypeDiv>{type}</TypeDiv>
-        <div>
-          {type == "login"
-            ? "Enter your account details"
-            : "Enter your details to get started"}
-        </div>
-      </StyledLegend>
-      <InputContainer>
-        <StyledInput
-          type="text"
-          id="username"
-          autoComplete="true"
-          placeholder="Username"
-          name="username"
-        />
-        <PwContainer>
+    <Wrapper>
+      <StyledForm action="">
+        <StyledLegend>
+          <TypeDiv>{type}</TypeDiv>
+          <div>
+            {type == "login"
+              ? "Enter your account details"
+              : "Enter your details to get started"}
+          </div>
+        </StyledLegend>
+        <InputContainer>
           <StyledInput
-            type={inputType}
-            id="password"
-            placeholder="Password"
-            name="password"
+            type="text"
+            id="username"
+            autoComplete="true"
+            placeholder="Username"
+            name="username"
           />
-          <IconContainer onClick={toggleVisible}>
-            {passwordShown ? <FaEye /> : <IoMdEyeOff />}
-          </IconContainer>
-        </PwContainer>
-        {type === "login" && (
-          <StyledInput
-            type={inputType}
-            id="confirmPassword"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-          />
-        )}
-      </InputContainer>
-      <SubmitBtn>{type}</SubmitBtn>
-    </StyledForm>
+          <PwContainer>
+            <StyledInput
+              type={inputType}
+              id="password"
+              placeholder="Password"
+              name="password"
+            />
+            <IconContainer onClick={toggleVisible}>
+              {passwordShown ? <FaEye /> : <IoMdEyeOff />}
+            </IconContainer>
+          </PwContainer>
+          {type === "login" && (
+            <StyledInput
+              type={inputType}
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              name="confirmPassword"
+            />
+          )}
+        </InputContainer>
+        <SubmitBtn>{type}</SubmitBtn>
+      </StyledForm>
+      <AuthNavigation />
+    </Wrapper>
   );
 };
 
