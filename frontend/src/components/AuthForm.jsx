@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useRef } from "react";
 import { IoMdEyeOff } from "react-icons/io";
+import { FaEye } from "react-icons/fa";
 const StyledForm = styled.form`
   font-family: "Poppins", sans-serif;
 `;
@@ -20,12 +20,16 @@ const SubmitBtn = styled.button`
 const PwContainer = styled.div`
   position: relative;
 `;
-const Icon = styled(IoMdEyeOff)`
+const IconContainer = styled.div`
   position: absolute;
   top: 50%;
   right: 0.5em;
   font-size: 1.5em;
   transform: translateY(-50%);
+  color: ${({ theme }) => theme.lightTextColor};
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const InputContainer = styled.div`
   display: flex;
@@ -56,6 +60,15 @@ const TypeDiv = styled.div`
   }
 `;
 const AuthForm = ({ type = "login" }) => {
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [inputType, setInputType] = useState("password");
+  function toggleVisible(e) {
+    e.preventDefault();
+    setPasswordShown((prev) => !prev);
+    setInputType((prev) => {
+      return prev === "password" ? "text" : "password";
+    });
+  }
   return (
     <StyledForm action="">
       <StyledLegend>
@@ -76,16 +89,18 @@ const AuthForm = ({ type = "login" }) => {
         />
         <PwContainer>
           <StyledInput
-            type="password"
+            type={inputType}
             id="password"
             placeholder="Password"
             name="password"
           />
-          <Icon />
+          <IconContainer onClick={toggleVisible}>
+            {passwordShown ? <FaEye /> : <IoMdEyeOff />}
+          </IconContainer>
         </PwContainer>
         {type === "login" && (
           <StyledInput
-            type="password"
+            type={inputType}
             id="confirmPassword"
             placeholder="Confirm Password"
             name="confirmPassword"
