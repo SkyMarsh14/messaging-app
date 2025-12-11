@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import AuthNavigation from "./AuthNavigation";
 const Wrapper = styled.div`
   max-width: 400px;
@@ -46,7 +46,8 @@ const InputContainer = styled.div`
 const StyledInput = styled.input`
   background-color: inherit;
   width: 100%;
-  padding: 0.5em 0;
+  height: 2.5em;
+  line-height: 2;
   border: none;
   color: ${({ theme }) => theme.primaryTextColor};
   border-bottom: 1px ${({ theme }) => theme.lightTextColor} solid;
@@ -68,6 +69,8 @@ const TypeDiv = styled.div`
 const AuthForm = ({ type = "login" }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [inputType, setInputType] = useState("password");
+  const pwInputRef = useRef(null);
+  const pwConfirmInputRef = useRef(null);
   function toggleVisible(e) {
     e.preventDefault();
     setPasswordShown((prev) => !prev);
@@ -75,9 +78,31 @@ const AuthForm = ({ type = "login" }) => {
       return prev === "password" ? "text" : "password";
     });
   }
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (pwInputRef.current) {
+      pwInputRef.current.setCustomValidity("");
+    }
+    if (type !== "login" && pwConfirmInputRef.current) {
+      if (pwInputRef.current.value !== pwConfirmInputRef.current.value) {
+        pwInputRef.current.setCustomValidity("Passwords do not match.");
+        pwInputRef.current.reportValidity();
+        return;
+      }
+    }
+    const formData = new FormData(e.target);
+    let formJson = {};
+    for (let [key, value] of formData.entries()) {
+      formJson[key] = value;
+    }
+    formJson = JSON.stringify(formJson);
+    if (formJson.password !== formJson.confirmPassword) {
+    }
+    console.log(formJson);
+  }
   return (
     <Wrapper>
-      <StyledForm action="">
+      <StyledForm action="" onSubmit={handleSubmit}>
         <StyledLegend>
           <TypeDiv>{type}</TypeDiv>
           <div>
@@ -93,6 +118,10 @@ const AuthForm = ({ type = "login" }) => {
             autoComplete="true"
             placeholder="Username"
             name="username"
+            required={true}
+            aria-required={true}
+            minLength={4}
+            maxLength={30}
           />
           <PwContainer>
             <StyledInput
@@ -100,17 +129,25 @@ const AuthForm = ({ type = "login" }) => {
               id="password"
               placeholder="Password"
               name="password"
+              required={true}
+              aria-required={true}
+              minLength={3}
+              maxLength={40}
+              ref={pwInputRef}
             />
             <IconContainer onClick={toggleVisible}>
               {passwordShown ? <FaEye /> : <IoMdEyeOff />}
             </IconContainer>
           </PwContainer>
-          {type === "login" && (
+          {type !== "login" && (
             <StyledInput
               type={inputType}
               id="confirmPassword"
               placeholder="Confirm Password"
               name="confirmPassword"
+              required={true}
+              aria-required={true}
+              ref={pwConfirmInputRef}
             />
           )}
         </InputContainer>
