@@ -50,7 +50,7 @@ const AuthPage = ({ type = "login" }) => {
   return (
     <Wrapper>
       <LeftElement>
-        <AuthForm />
+        <AuthForm type={type} />
       </LeftElement>
       <RightElement>
         <HeroHeadingWrapper>

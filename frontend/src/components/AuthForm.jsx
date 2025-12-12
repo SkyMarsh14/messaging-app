@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
+import { FaCircleExclamation } from "react-icons/fa6";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthNavigation from "./AuthNavigation";
+import login from "../api/login.js";
 const Wrapper = styled.div`
   max-width: 400px;
   margin: auto;
@@ -18,6 +21,7 @@ const SubmitBtn = styled.button`
   background-color: ${({ theme }) => theme.primaryBgColor};
   border-radius: 0.5em;
   border: none;
+  margin-top: 3em;
   cursor: pointer;
   &:first-letter {
     text-transform: capitalize;
@@ -41,7 +45,6 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2em;
-  margin-bottom: 3em;
 `;
 const StyledInput = styled.input`
   background-color: inherit;
@@ -66,9 +69,27 @@ const TypeDiv = styled.div`
     text-transform: capitalize;
   }
 `;
+const ErrorContainer = styled.ul`
+  display: grid;
+  gap: 1em;
+  list-style-type: none;
+  padding-inline-start: 0;
+  color: ${({ theme }) => theme.primaryTextColor};
+`;
+const ErrorMsg = styled.li`
+  padding: 0 0.5em;
+  margin: 1.5em 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background-color: ${({ theme }) => theme.errorBgColor};
+  border-radius: 5px;
+`;
 const AuthForm = ({ type = "login" }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [inputType, setInputType] = useState("password");
+  const [errors, setErrors] = useState(null);
+  const navigate = useNavigate();
   const pwInputRef = useRef(null);
   const pwConfirmInputRef = useRef(null);
   function toggleVisible(e) {
@@ -78,8 +99,9 @@ const AuthForm = ({ type = "login" }) => {
       return prev === "password" ? "text" : "password";
     });
   }
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setErrors(null);
     if (pwInputRef.current) {
       pwInputRef.current.setCustomValidity("");
     }
@@ -91,14 +113,23 @@ const AuthForm = ({ type = "login" }) => {
       }
     }
     const formData = new FormData(e.target);
-    let formJson = {};
+    let formBody = {};
     for (let [key, value] of formData.entries()) {
-      formJson[key] = value;
+      formBody[key] = value;
     }
-    formJson = JSON.stringify(formJson);
-    if (formJson.password !== formJson.confirmPassword) {
+    formBody = JSON.stringify(formBody);
+    const { json, response } = await login(formBody);
+    if (response.status === 200) {
+      if (type === "login") {
+        navigate("dashboard");
+      } else {
+        navigate("login");
+      }
+    } else if (json?.errors) {
+      setErrors(json.errors);
+    } else if (response.status === 401) {
+      setErrors([{ msg: "Incorrect username or password. Please try again" }]);
     }
-    console.log(formJson);
   }
   return (
     <Wrapper>
@@ -151,6 +182,18 @@ const AuthForm = ({ type = "login" }) => {
             />
           )}
         </InputContainer>
+        {errors && (
+          <ErrorContainer>
+            {errors.map((err, index) => (
+              <>
+                <ErrorMsg key={index}>
+                  <FaCircleExclamation />
+                  {err.msg}
+                </ErrorMsg>
+              </>
+            ))}
+          </ErrorContainer>
+        )}
         <SubmitBtn>{type}</SubmitBtn>
       </StyledForm>
       <AuthNavigation />
