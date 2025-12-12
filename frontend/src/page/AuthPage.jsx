@@ -19,6 +19,7 @@ const HeroHeadingWrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
+  max-width: 80%;
 `;
 const HeroHeadline = styled.div`
   color: ${({ theme }) => theme.primaryTextColor};

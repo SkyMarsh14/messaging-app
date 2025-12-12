@@ -9,7 +9,7 @@ const loginController = {
     async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json(errors.array());
+        return res.status(404).json({ errors: errors.array() });
       }
       const { username, password } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,13 +32,13 @@ const loginController = {
   login: [
     loginValidation,
     async (req, res) => {
-      const { username, password } = req.body;
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
         });
       }
+      const { username, password } = req.body;
       const user = await prisma.user.findUnique({
         where: {
           username: req.body.username,
@@ -50,7 +50,7 @@ const loginController = {
       if (!user) return res.json({ msg: "User doesn't exist" });
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return res.json({ msg: "Incorrect credentials" });
+        return res.status(401).json({ msg: "Incorrect credentials" });
       }
       const token = jwt.sign(
         { id: user.id, username },

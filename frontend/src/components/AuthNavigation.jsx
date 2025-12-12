@@ -24,12 +24,16 @@ const AuthNavigation = ({ type = "login" }) => {
   function handleClick(e) {
     e.preventDefault();
     let nav;
-    nav = type === "login" ? "signup" : "login";
+    nav = type === "login" ? "/signup" : "/login";
     navigate(nav);
   }
   return (
     <Wrapper>
-      <Message>Don't have an account?</Message>
+      <Message>
+        {type === "login"
+          ? "Don't have an account?"
+          : "Already have an account?"}
+      </Message>
       <NavButton onClick={handleClick}>
         {type === "login" ? "Sign up" : "Login"}
       </NavButton>

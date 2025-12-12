@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthNavigation from "./AuthNavigation";
 import login from "../api/login.js";
+import signup from "../api/signup.js";
 const Wrapper = styled.div`
   max-width: 400px;
   margin: auto;
@@ -99,6 +100,9 @@ const AuthForm = ({ type = "login" }) => {
       return prev === "password" ? "text" : "password";
     });
   }
+  function handlePasswordChange() {
+    pwInputRef?.current.setCustomValidity("");
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     setErrors(null);
@@ -118,17 +122,24 @@ const AuthForm = ({ type = "login" }) => {
       formBody[key] = value;
     }
     formBody = JSON.stringify(formBody);
-    const { json, response } = await login(formBody);
-    if (response.status === 200) {
-      if (type === "login") {
-        navigate("dashboard");
-      } else {
-        navigate("login");
+    if (type === "login") {
+      const { json, response } = await login(formBody);
+      if (response.status === 200) {
+        navigate("/dashboard");
+      } else if (json?.errors) {
+        setErrors(json.errors);
+      } else if (response.status === 401) {
+        setErrors([
+          { msg: "Incorrect username or password. Please try again" },
+        ]);
       }
-    } else if (json?.errors) {
-      setErrors(json.errors);
-    } else if (response.status === 401) {
-      setErrors([{ msg: "Incorrect username or password. Please try again" }]);
+    } else if (type === "sign up") {
+      const { json, response } = await signup(formBody);
+      if (response.status === 200) {
+        navigate("/login");
+      } else {
+        setErrors(json.errors);
+      }
     }
   }
   return (
@@ -160,6 +171,7 @@ const AuthForm = ({ type = "login" }) => {
               id="password"
               placeholder="Password"
               name="password"
+              onChange={handlePasswordChange}
               required={true}
               aria-required={true}
               minLength={3}
@@ -196,7 +208,7 @@ const AuthForm = ({ type = "login" }) => {
         )}
         <SubmitBtn>{type}</SubmitBtn>
       </StyledForm>
-      <AuthNavigation />
+      <AuthNavigation type={type} />
     </Wrapper>
   );
 };
