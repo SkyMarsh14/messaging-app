@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect } from "react";
 import StyledLoginHero from "../components/StyledLoginIcon";
 import AuthForm from "../components/AuthForm";
 import hero from "../assets/loginImage.svg";

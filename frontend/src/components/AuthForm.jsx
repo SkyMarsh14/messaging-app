@@ -127,9 +127,9 @@ const AuthForm = ({ type = "login" }) => {
       if (response.status === 200) {
         navigate("/dashboard");
       } else if (json?.errors) {
-        setErrors(json.errors);
+        return setErrors(json.errors);
       } else if (response.status === 401) {
-        setErrors([
+        return setErrors([
           { msg: "Incorrect username or password. Please try again" },
         ]);
       }
@@ -138,9 +138,11 @@ const AuthForm = ({ type = "login" }) => {
       if (response.status === 200) {
         navigate("/login");
       } else {
-        setErrors(json.errors);
+        return setErrors(json.errors);
       }
     }
+    pwInputRef.current.value = "";
+    pwConfirmInputRef.current.value = "";
   }
   return (
     <Wrapper>

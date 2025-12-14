@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import Poppins from "./assets/fonts/Poppins-Regular.ttf";
+import Poppins from "../assets/fonts/Poppins-Regular.ttf";
 const GlobalStyle = createGlobalStyle`
 /* 1. Use a more-intuitive box-sizing model */
 *, *::before, *::after {
