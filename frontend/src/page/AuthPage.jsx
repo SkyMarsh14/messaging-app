@@ -45,10 +45,10 @@ const RightElement = styled.div`
 `;
 
 const AuthPage = ({ type = "login" }) => {
-  const isLogin = type === "login";
-  const headlineText = isLogin
-    ? "Log in to access your account"
-    : "Create your account to start messaging";
+  const headlineText =
+    type === "login"
+      ? "Log in to access your account"
+      : "Create your account to start messaging";
   return (
     <Wrapper>
       <LeftElement>

@@ -9,4 +9,5 @@ userRouter.post(
   profileUpload.single("profilePic"),
   userController.uploadProfile
 );
+userRouter.get("/others", userController.getAllUsers);
 export default userRouter;

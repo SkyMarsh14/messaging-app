@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import UserContext from "../helper/UserContext.js";
 import { useNavigate } from "react-router-dom";
 import AuthNavigation from "./AuthNavigation";
 import login from "../api/login.js";
@@ -87,6 +88,7 @@ const ErrorMsg = styled.li`
   border-radius: 5px;
 `;
 const AuthForm = ({ type = "login" }) => {
+  const { setAuth } = useContext(UserContext);
   const [passwordShown, setPasswordShown] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [errors, setErrors] = useState(null);
@@ -125,10 +127,13 @@ const AuthForm = ({ type = "login" }) => {
     if (type === "login") {
       const { json, response } = await login(formBody);
       if (response.status === 200) {
-        navigate("/dashboard");
+        setAuth(json.token);
+        navigate("/");
       } else if (json?.errors) {
+        setAuth(null);
         return setErrors(json.errors);
       } else if (response.status === 401) {
+        setAuth(null);
         return setErrors([
           { msg: "Incorrect username or password. Please try again" },
         ]);
@@ -141,8 +146,6 @@ const AuthForm = ({ type = "login" }) => {
         return setErrors(json.errors);
       }
     }
-    pwInputRef.current.value = "";
-    pwConfirmInputRef.current.value = "";
   }
   return (
     <Wrapper>

@@ -29,31 +29,6 @@ const messageController = {
   getRooms: async (req, res) => {
     const userId = req.user.id;
     try {
-      // const chatRooms = await prisma.chatRoom.findMany({
-      //   where: {
-      //     chatRoomUsers: {
-      //       some: {
-      //         userId: userId,
-      //       },
-      //     },
-      //   },
-      //   include: {
-      //     chatRoomUsers: {
-      //       include: {
-      //         user: {
-      //           select: {
-      //             id: true,
-      //             profile: {
-      //               select: {
-      //                 url: true,
-      //               },
-      //             },
-      //           },
-      //         },
-      //       },
-      //     },
-      //   },
-      // });
       const chatRooms = await prisma.chatRoom.findMany({
         where: {
           chatRoomUsers: {
@@ -63,7 +38,14 @@ const messageController = {
           },
         },
         include: {
-          chatRoomUsers: true,
+          chatRoomUsers: {
+            include: {
+              user: true,
+            },
+            omit: {
+              userId: true,
+            },
+          },
         },
       });
       const chatRoomArray = [];
@@ -81,6 +63,7 @@ const messageController = {
         .json({ msg: "Failed to retrive rooms", error: err });
     }
   },
+
   getMessages: async (req, res) => {
     try {
       const chatRoomId = req.body.chatRoomId;

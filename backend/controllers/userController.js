@@ -2,6 +2,8 @@ import prisma from "../db/prisma.js";
 import { body } from "express-validator";
 import profileUploader from "../lib/profileUploader.js";
 import { v2 as cloudinary } from "cloudinary";
+import stringToColor from "string-to-color";
+
 const userController = {
   getConfig: async (req, res) => {
     const userConfig = await prisma.user.findFirst({
@@ -10,6 +12,24 @@ const userController = {
       },
     });
     res.json({ config: userConfig });
+  },
+  getAllUsers: async (req, res) => {
+    try {
+      const users = await prisma.user.findMany({
+        include: {
+          profile: {
+            select: {
+              url: true,
+            },
+          },
+        },
+      });
+      return res.json(users);
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ msg: "Failed to retrive users", error: err });
+    }
   },
   updateConfig: [
     body("username")

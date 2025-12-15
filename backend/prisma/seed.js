@@ -98,7 +98,7 @@ async function main() {
     skipDuplicates: true,
   });
   const messageData = [];
-  const processedChatRooms = new Map();
+  const processedChatRooms = new Map(); // create a cache and look up when creating a new chatRoom to prevent race condition.
   for (const m of messages) {
     const users = [m.authorId, m.receiverId].sort();
     const roomKey = users.join("-");
