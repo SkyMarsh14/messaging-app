@@ -21,7 +21,6 @@ model User {
   bio           String?
   profile       File?          @relation(fields: [profileFileId], references: [id])
   profileFileId Int?           @unique
-  color         String
   sentMessages  Message[]      @relation("SentMessages")
   memberships   ChatRoomUser[]
 }

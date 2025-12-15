@@ -2,7 +2,7 @@ import prisma from "../db/prisma.js";
 import { body } from "express-validator";
 import profileUploader from "../lib/profileUploader.js";
 import { v2 as cloudinary } from "cloudinary";
-import stringToColor from "string-to-color";
+import addColorProperty from "../lib/addColorProperty.js";
 
 const userController = {
   getConfig: async (req, res) => {
@@ -15,7 +15,7 @@ const userController = {
   },
   getAllUsers: async (req, res) => {
     try {
-      const users = await prisma.user.findMany({
+      let users = await prisma.user.findMany({
         include: {
           profile: {
             select: {
@@ -24,6 +24,7 @@ const userController = {
           },
         },
       });
+      users = await addColorProperty(users);
       return res.json(users);
     } catch (err) {
       return res
