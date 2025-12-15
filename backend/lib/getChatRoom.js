@@ -6,32 +6,35 @@ async function getChatRoom(usersId) {
     throw new Error("usersId must be a non-empty array");
   }
   const type = usersId.length > 2 ? "GROUP" : "DIRECT"; // More than 2 users to be the group chat.
-  let chatRoom = await prisma.chatRoom.findFirst({
+  const sortedUsers = [...new Set(usersId)].sort();
+  let exsitingRoom = await prisma.chatRoom.findFirst({
     where: {
       type: type,
       chatRoomUsers: {
         every: {
           userId: {
-            in: usersId,
+            in: sortedUsers,
           },
         },
       },
     },
+    include: {
+      chatRoomUsers: true,
+    },
   });
-  if (!chatRoom) {
-    chatRoom = await prisma.chatRoom.create({
-      data: {
-        type: type,
-        chatRoomUsers: {
-          create: usersId.map((id) => ({
-            userId: id,
-          })),
-        },
+  if (exsitingRoom && exsitingRoom.chatRoomUsers.length === 2)
+    return exsitingRoom;
+  return await prisma.chatRoom.create({
+    data: {
+      type: type,
+      chatRoomUsers: {
+        create: sortedUsers.map((id) => ({
+          userId: id,
+        })),
       },
-      include: { chatRoomUsers: true },
-    });
-  }
-  return chatRoom;
+    },
+    include: { chatRoomUsers: true },
+  });
 }
 
 export default getChatRoom;

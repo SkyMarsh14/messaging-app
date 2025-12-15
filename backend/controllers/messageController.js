@@ -3,6 +3,7 @@ import getChatRoom from "../lib/getChatRoom.js";
 const messageController = {
   send: async (req, res) => {
     const { content, receiverId } = req.body;
+    const userId = req.user.id;
     const senderId = req.user.id;
     if (receiverId === senderId) {
       throw new Error("Receiver Id and sedner Id must not be identical");
@@ -28,15 +29,56 @@ const messageController = {
   getRooms: async (req, res) => {
     const userId = req.user.id;
     try {
-      const rooms = await prisma.chatRoomUser.findMany({
+      // const chatRooms = await prisma.chatRoom.findMany({
+      //   where: {
+      //     chatRoomUsers: {
+      //       some: {
+      //         userId: userId,
+      //       },
+      //     },
+      //   },
+      //   include: {
+      //     chatRoomUsers: {
+      //       include: {
+      //         user: {
+      //           select: {
+      //             id: true,
+      //             profile: {
+      //               select: {
+      //                 url: true,
+      //               },
+      //             },
+      //           },
+      //         },
+      //       },
+      //     },
+      //   },
+      // });
+      const chatRooms = await prisma.chatRoom.findMany({
         where: {
-          userId: userId,
+          chatRoomUsers: {
+            some: {
+              userId: userId,
+            },
+          },
+        },
+        include: {
+          chatRoomUsers: true,
         },
       });
-      if (!rooms)
-        res.json({ msg: "No associated room with the user was found." });
+      const chatRoomArray = [];
+      chatRooms.forEach((room) => {
+        room.chatRoomUsers.forEach((user) => {
+          if (user.userId !== userId) {
+            chatRoomArray.push(user);
+          }
+        });
+      });
+      return res.json(chatRoomArray);
     } catch (err) {
-      return res.json({ msg: "Failed to retrive rooms", error: err });
+      return res
+        .status(500)
+        .json({ msg: "Failed to retrive rooms", error: err });
     }
   },
   getMessages: async (req, res) => {
