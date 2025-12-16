@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useEffect } from "react";
 import StyledLoginHero from "../components/StyledLoginIcon";
 import AuthForm from "../components/AuthForm";
 import hero from "../assets/loginImage.svg";
@@ -8,7 +7,7 @@ const Wrapper = styled.div`
   font-family: "Poppins", sans-serif;
   height: 100vh;
   width: 100vw;
-  background-color: ${({ theme }) => theme.authBgColor};
+  background-color: ${({ theme }) => theme.primaryBgColor};
 `;
 const LeftElement = styled.div`
   flex: 1;
@@ -39,7 +38,7 @@ const LoginToAccess = styled(HeroHeadline)`
   line-height: normal;
 `;
 const RightElement = styled.div`
-  background-color: ${({ theme }) => theme.primaryBgColor};
+  background-color: ${({ theme }) => theme.authBgColor};
   flex: 1;
   position: relative;
 `;

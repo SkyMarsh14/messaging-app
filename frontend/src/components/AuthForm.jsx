@@ -20,7 +20,7 @@ const SubmitBtn = styled.button`
   width: 100%;
   padding: 0.5em 0;
   color: ${({ theme }) => theme.primaryTextColor};
-  background-color: ${({ theme }) => theme.primaryBgColor};
+  background-color: ${({ theme }) => theme.authBgColor};
   border-radius: 0.5em;
   border: none;
   margin-top: 3em;
