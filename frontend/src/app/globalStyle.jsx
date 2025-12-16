@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
 body {
   /* 4. Add accessible line-height */
   line-height: 1.5;
-  background-color:gray;
+  background-color:${(props) => props.bodyBgColor};
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
 }

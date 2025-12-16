@@ -12,7 +12,7 @@ const App = () => {
   return (
     <UserContext.Provider value={{ auth, setAuth }}>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
+        <GlobalStyle bodyBgColor={theme.bodyBgColor} />
         <RouterProvider router={router} />
       </ThemeProvider>
     </UserContext.Provider>

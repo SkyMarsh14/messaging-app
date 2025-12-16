@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../helper/UserContext";
 
-const useFetch = () => {
+const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
@@ -10,9 +10,8 @@ const useFetch = () => {
   const { auth, setAuth } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (url) => {
       try {
-        const url = ENDPOINTS.users();
         setLoading(true);
         if (!auth) navigate("/login");
         const options = {
