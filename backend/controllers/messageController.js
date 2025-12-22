@@ -3,7 +3,6 @@ import getChatRoom from "../lib/getChatRoom.js";
 const messageController = {
   send: async (req, res) => {
     const { content, receiverId } = req.body;
-    const userId = req.user.id;
     const senderId = req.user.id;
     if (receiverId === senderId) {
       throw new Error("Receiver Id and sedner Id must not be identical");

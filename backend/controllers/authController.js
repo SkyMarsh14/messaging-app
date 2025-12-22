@@ -57,7 +57,7 @@ const loginController = {
         process.env.TOKEN_SECRET,
         { expiresIn: "1h" }
       );
-      res.json({ token });
+      res.json({ token, user });
     },
   ],
 };

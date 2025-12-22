@@ -5,7 +5,7 @@ const addColorProperty = (userArray) => {
   return Promise.all(
     userArray.map((user) => {
       if (user.profile) return user; // If no profile, then skip.
-      user["color"] = stringToColor(user.name);
+      user["color"] = stringToColor(user.username);
       return user;
     })
   );

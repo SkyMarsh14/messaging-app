@@ -7,7 +7,8 @@ const darkTheme = {
   errorBgColor: "#D12D33",
   bodyBgColor: "#3c3c44",
   iconColor: "#a8a8a8",
-  iconBgColor: "#232626",
-  iconBgHover: "#687373ff",
+  iconBgColor: "#313131ff",
+  iconBgHover: "#353535",
+  userNavBgColor: "#1e1e1e",
 };
 export default darkTheme;

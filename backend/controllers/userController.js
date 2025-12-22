@@ -16,6 +16,11 @@ const userController = {
   getAllUsers: async (req, res) => {
     try {
       let users = await prisma.user.findMany({
+        where: {
+          id: {
+            not: req.user.id,
+          },
+        },
         include: {
           profile: {
             select: {
