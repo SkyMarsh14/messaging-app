@@ -2,6 +2,8 @@ const darkTheme = {
   primaryTextColor: "#eee",
   primaryBgColor: "#1C1d21",
   lightTextColor: " rgba(255, 255, 255, 0.5)",
+  lightBgColor: "#bfbfbfff",
+  linkBlueColor: "#85A1FF",
   authBgColor: "#925fe2",
   btnBgColor: "#333437",
   errorBgColor: "#D12D33",

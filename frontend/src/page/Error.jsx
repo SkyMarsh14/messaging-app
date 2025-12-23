@@ -23,8 +23,10 @@ const MessageContainer = styled.div`
 const HomeLink = styled.button`
   margin-top: 1em;
   width: 30%;
-  background-color: ${({ theme }) => theme.primaryTextColor};
+  background-color: ${({ theme }) => theme.primaryBgColor};
   border-radius: 4px;
+  border: 1px solid ${({ theme }) => theme.bodyBgColor};
+  color: ${({ theme }) => theme.primaryTextColor};
   cursor: pointer;
   transition: filter 0.2s;
   &:hover {
