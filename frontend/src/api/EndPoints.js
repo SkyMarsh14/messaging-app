@@ -3,6 +3,6 @@ const ENDPOINTS = {
   signup: () => import.meta.env.VITE_BACKEND_URL + "auth/create",
   users: () => import.meta.env.VITE_BACKEND_URL + "user/others",
   messages: (chatRoomId) =>
-    import.meta.env.VITE_BACKEND_URL + `chat/${chatRoomId}`,
+    import.meta.env.VITE_BACKEND_URL + `message/chat/${chatRoomId}`,
 };
 export default ENDPOINTS;

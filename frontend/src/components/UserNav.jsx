@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { HiUser } from "react-icons/hi";
-
+import { useNavigate } from "react-router-dom";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,10 +13,9 @@ const Wrapper = styled.div`
 const Username = styled.div`
   font-size: 0.6em;
 `;
-const ProfileIcon = styled.div`
-  border-radius: 50%;
-`;
+const ProfileIcon = styled.div``;
 const IconContainer = styled.div`
+  border: 0.2px groove ${({ theme }) => theme.lightTextColor};
   border-radius: 50%;
   padding: 0.15em;
   background-color: ${({ theme }) => theme.iconBgColor};
@@ -37,13 +36,15 @@ const CustomIcon = styled(ProfileIcon)`
   background-image: url(${(props) => props.url});
 `;
 const UserNav = ({ userData }) => {
-  function handleClick(e) {
+  const navigate = useNavigate();
+  function handleClick(e, userId) {
     e.preventDefault();
+    navigate(`/chat/${userId}`);
   }
   return (
     <Wrapper>
       {userData.map((user) => (
-        <UserContainer onClick={handleClick} key={user.id}>
+        <UserContainer onClick={(e) => handleClick(e, user.id)} key={user.id}>
           {user.profile ? (
             <CustomIcon src={user.profile.url} />
           ) : (

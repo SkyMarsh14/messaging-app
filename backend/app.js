@@ -23,7 +23,7 @@ app.use(
 app.use("/user", passport.authenticate("jwt", { session: false }), userRouter);
 app.use(errorGlobal);
 app.use("/*w", (req, res) => {
-  return res.json({
+  return res.status(404).json({
     error: "Requested route does not exist",
     path: req.originalUrl,
     method: req.method,

@@ -25,6 +25,20 @@ const messageController = {
       return res.json({ msg: "Sending message failed", error: err });
     }
   },
+  getMessageByUser: async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+      const chatRoom = await getChatRoom([req.user.id, userId]);
+      const chats = await prisma.message.findMany({
+        where: {
+          chatRoomId: chatRoom.id,
+        },
+      });
+      return res.json(chats);
+    } catch (err) {
+      next(err);
+    }
+  },
   getRooms: async (req, res) => {
     const userId = req.user.id;
     try {
@@ -62,13 +76,11 @@ const messageController = {
         .json({ msg: "Failed to retrive rooms", error: err });
     }
   },
-
-  getMessages: async (req, res) => {
+  getMessageByChatRoom: async (req, res) => {
     try {
-      const chatRoomId = req.body.chatRoomId;
       const chats = await prisma.chatRoom.findUnique({
         where: {
-          id: chatRoomId,
+          id: Number(req.params.chatRoomId),
         },
         include: {
           chatRoomUsers: true,
@@ -76,6 +88,7 @@ const messageController = {
         },
       });
       if (!chats) return res.json({ chats });
+      return res.json(chats);
     } catch (err) {
       return res.json({ msg: "Error getting chats", error: err });
     }
