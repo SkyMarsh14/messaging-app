@@ -6,10 +6,10 @@ const Wrapper = styled.div`
   right: 0;
   left: 0;
 `;
-const BottomChatElement = () => {
+const BottomChatElement = ({ setChatData }) => {
   return (
     <Wrapper>
-      <ChatInput />
+      <ChatInput setChatData={setChatData} />
     </Wrapper>
   );
 };

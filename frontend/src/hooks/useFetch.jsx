@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../helper/UserContext";
 
-const useFetch = (url) => {
+const useFetch = (url, dependancy = []) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
@@ -42,7 +42,7 @@ const useFetch = (url) => {
       }
     };
     fetchData(url);
-  }, []);
-  return { data, error, loading, needsAuth };
+  }, dependancy);
+  return { data, setData, error, loading, needsAuth };
 };
 export default useFetch;

@@ -4,5 +4,6 @@ const ENDPOINTS = {
   users: () => import.meta.env.VITE_BACKEND_URL + "user/others",
   messages: (userId) =>
     import.meta.env.VITE_BACKEND_URL + `message/user/${userId}`,
+  sendMessage: () => import.meta.env.VITE_BACKEND_URL + `message/send`,
 };
 export default ENDPOINTS;
