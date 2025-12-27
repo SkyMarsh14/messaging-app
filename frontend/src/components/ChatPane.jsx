@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 const ChatPane = () => {
   const { userId } = useParams();
   const url = ENDPOINTS.messages(userId);
-  const { data, setData, error, loading } = useFetch(url);
+  const { data, setData, error, loading } = useFetch(url, userId);
   if (error) {
     throw new Error("Requested route does not exist"); // Rethrow the error outside of the hook to display Error boundary.
   }

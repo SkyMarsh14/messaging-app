@@ -88,7 +88,6 @@ const ErrorMsg = styled.li`
   border-radius: 5px;
 `;
 const AuthForm = ({ type = "login" }) => {
-  const { auth, setAuth, setUser } = useContext(UserContext);
   const [passwordShown, setPasswordShown] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [errors, setErrors] = useState(null);
@@ -97,7 +96,8 @@ const AuthForm = ({ type = "login" }) => {
   const pwConfirmInputRef = useRef(null);
 
   useEffect(() => {
-    if (auth) navigate("/", { replace: true });
+    if (localStorage.getItem("token") && localStorage.getItem("user"))
+      navigate("/", { replace: true });
   }, []);
 
   function toggleVisible(e) {
@@ -132,14 +132,12 @@ const AuthForm = ({ type = "login" }) => {
     if (type === "login") {
       const { json, response } = await login(formBody);
       if (response.status === 200) {
-        setAuth(json.token);
-        setUser(json.user);
         navigate("/");
       } else if (json?.errors) {
-        setAuth(null);
+        localStorage.removeItem("token");
         return setErrors(json.errors);
       } else if (response.status === 401) {
-        setAuth(null);
+        localStorage.removeItem("token");
         return setErrors([
           { msg: "Incorrect username or password. Please try again" },
         ]);

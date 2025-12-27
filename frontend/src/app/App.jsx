@@ -8,10 +8,9 @@ import { useState } from "react";
 
 const router = createBrowserRouter(routes);
 const App = () => {
-  const [auth, setAuth] = useState(localStorage.getItem("token"));
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem("user"));
   return (
-    <UserContext.Provider value={{ auth, setAuth, user, setUser }}>
+    <UserContext.Provider value={{ user, setUser }}>
       <ThemeProvider theme={theme}>
         <GlobalStyle bodyBgColor={theme.bodyBgColor} />
         <RouterProvider router={router} />

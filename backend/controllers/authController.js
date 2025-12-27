@@ -52,6 +52,7 @@ const loginController = {
       if (!match) {
         return res.status(401).json({ msg: "Incorrect credentials" });
       }
+      delete user.password;
       const token = jwt.sign(
         { id: user.id, username },
         process.env.TOKEN_SECRET,

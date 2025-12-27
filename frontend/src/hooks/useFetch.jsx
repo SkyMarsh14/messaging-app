@@ -1,24 +1,25 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../helper/UserContext";
 
 const useFetch = (url, dependancy = []) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [needsAuth, setNeedsAuth] = useState(null);
-  const { auth, setAuth } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async (url) => {
       try {
         setLoading(true);
-        if (!auth) navigate("/login");
+        if (!localStorage.getItem("token")) navigate("/login");
+        const token = localStorage.getItem("token");
         const options = {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            ...(auth && { Authorization: `Bearer ${auth}` }),
+            ...(token && {
+              Authorization: `Bearer ${token}`,
+            }),
           },
           mode: "cors",
         };
@@ -26,7 +27,6 @@ const useFetch = (url, dependancy = []) => {
         if (!response.ok) {
           if (response.status === 401) {
             console.error("Invalid or expired authorization token.");
-            setAuth(null);
             setNeedsAuth(true);
             localStorage.removeItem("token");
             return navigate("/login");
