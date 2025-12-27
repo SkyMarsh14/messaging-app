@@ -49,16 +49,23 @@ const ChatInput = ({ setChatData }) => {
   const url = ENDPOINTS.sendMessage();
   const { userId } = useParams();
   const [message, setMessage] = useState(null);
+  const [composing, setComposition] = useState(false);
+  const startComposition = () => setComposition(true);
+  const endComposition = () => setComposition(false);
   function handleChange(e) {
     setMessage(e.target.value);
   }
   function handleEnter(e) {
     if (e.key === "Enter") {
+      if (composing) return; // Prevent sending a message while on IME in some languages.
       handleSubmit(e);
     }
     return;
   }
   async function handleSubmit(e) {
+    if (message.trim().length === 0) {
+      return;
+    }
     e.target.value = "";
     setMessage("");
     const body = JSON.stringify({
@@ -85,6 +92,8 @@ const ChatInput = ({ setChatData }) => {
   return (
     <Wrapper>
       <StyledInput
+        onCompositionStart={startComposition}
+        onCompositionEnd={endComposition}
         onKeyDown={handleEnter}
         onChange={handleChange}
         placeholder="Type your message"
