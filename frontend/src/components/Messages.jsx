@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import EmptyChat from "./EmptyChat";
+import { useEffect, useRef } from "react";
 
 const ChatWrapper = styled.div`
   height: 100%;
@@ -37,12 +38,21 @@ const ReceivedMessage = styled(ChatBubble)`
   border-top-left-radius: 0;
 `;
 const Messages = ({ chatData }) => {
+  const scrollContainerRef = useRef(null);
+  // Scroll starts from the bottom when it refreshes or new message is being added.
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop =
+        scrollContainerRef.current.scrollHeight;
+    }
+  }, [chatData]);
+
   const user = JSON.parse(localStorage.getItem("user"));
   if (chatData.length === 0) {
     return <EmptyChat />;
   }
   return (
-    <ChatWrapper>
+    <ChatWrapper ref={scrollContainerRef}>
       {chatData.map((message) =>
         message.authorId === user.id ? (
           <SentMessage key={message.id}>{message.content}</SentMessage>
