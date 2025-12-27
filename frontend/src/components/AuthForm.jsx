@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import UserContext from "../helper/UserContext.js";
 import { useNavigate } from "react-router-dom";
 import AuthNavigation from "./AuthNavigation";
@@ -88,13 +88,18 @@ const ErrorMsg = styled.li`
   border-radius: 5px;
 `;
 const AuthForm = ({ type = "login" }) => {
-  const { setAuth } = useContext(UserContext);
+  const { auth, setAuth, setUser } = useContext(UserContext);
   const [passwordShown, setPasswordShown] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [errors, setErrors] = useState(null);
   const navigate = useNavigate();
   const pwInputRef = useRef(null);
   const pwConfirmInputRef = useRef(null);
+
+  useEffect(() => {
+    if (auth) navigate("/", { replace: true });
+  }, []);
+
   function toggleVisible(e) {
     e.preventDefault();
     setPasswordShown((prev) => !prev);
@@ -128,6 +133,7 @@ const AuthForm = ({ type = "login" }) => {
       const { json, response } = await login(formBody);
       if (response.status === 200) {
         setAuth(json.token);
+        setUser(json.user);
         navigate("/");
       } else if (json?.errors) {
         setAuth(null);

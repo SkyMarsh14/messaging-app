@@ -78,6 +78,9 @@ const ChatInput = ({ setChatData }) => {
     if (response.status === 401) {
       navigate("/login");
     }
+    const json = await response.json();
+    //Avoid requerying the whole chat and add message at the end instead.
+    setChatData((prev) => [...prev, json.createdMessage]);
   }
   return (
     <Wrapper>
