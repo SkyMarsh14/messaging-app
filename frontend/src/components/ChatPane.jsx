@@ -6,8 +6,10 @@ import Messages from "./Messages";
 import useFetch from "../hooks/useFetch";
 const Wrapper = styled.div`
   grid-column: 2/3;
-  position: relative; // Prevents bottom element overflow.
-  margin: 1em;
+  padding: 1em;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ChatPane = () => {

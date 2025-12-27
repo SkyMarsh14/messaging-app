@@ -12,7 +12,7 @@ const darkTheme = {
   iconBgColor: "#313131ff",
   iconBgHover: "#353535",
   userNavBgColor: "#1e1e1e",
-  senderChatBubble: "black",
-  receiverChatBubble: "purple",
+  sentChatBubble: "black",
+  receivedChatBubble: "gray",
 };
 export default darkTheme;

@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   font-size: 2em;
   background-color: ${(props) => props.theme.userNavBgColor};
   overflow-y: auto;
-  height: 100vh;
+  height: 100%;
   grid-column: 1/2;
 `;
 const Username = styled.div`

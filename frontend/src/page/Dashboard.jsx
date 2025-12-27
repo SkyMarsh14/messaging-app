@@ -5,11 +5,10 @@ import UserNav from "../components/UserNav.jsx";
 import { Outlet } from "react-router-dom";
 
 const Wrapper = styled.div`
+  height: 100vh;
   display: grid;
   grid-template-columns: 330px 1fr;
   color: ${(props) => props.theme.primaryTextColor};
-  width: 100vw;
-  height: 100vh;
 `;
 const Dashboard = () => {
   const { data, error, loading, needsAuth } = useFetch(ENDPOINTS.users());
