@@ -4,6 +4,23 @@ import EmptyChat from "./EmptyChat";
 const ChatWrapper = styled.div`
   height: 100%;
   overflow-y: auto;
+  scrollbar-color: ${({ theme }) => theme.scrollBarColor};
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.primaryBgColor};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.scrollBarBgColor};
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
 `;
 const ChatBubble = styled.div`
   padding: 0.5em 1em;

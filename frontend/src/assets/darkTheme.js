@@ -14,5 +14,7 @@ const darkTheme = {
   userNavBgColor: "#1e1e1e",
   sentChatBubble: "black",
   receivedChatBubble: "gray",
+  scrollBarColor: "dark",
+  scrollBarBgColor: "#555",
 };
 export default darkTheme;
