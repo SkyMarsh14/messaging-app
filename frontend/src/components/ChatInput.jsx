@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   background-color: ${({ theme }) => theme.primaryBgColor};
   color: ${({ theme }) => theme.primaryTextColor};
-  border: 0.5px solid ${({ theme }) => theme.lightTextColor};
+  border: ${({ theme }) => theme.borderElementSeparator};
 `;
 const StyledInput = styled.input`
   width: 100%;

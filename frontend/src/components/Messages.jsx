@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import EmptyChat from "./EmptyChat";
 import { useEffect, useRef } from "react";
+import { formatDistance } from "date-fns";
 
 const ChatWrapper = styled.div`
   overflow-y: auto;
+  padding: 0 1em;
   scrollbar-color: ${({ theme }) => theme.scrollBarColor};
   &::-webkit-scrollbar {
     width: 8px;
@@ -23,19 +25,29 @@ const ChatWrapper = styled.div`
   }
 `;
 const ChatBubble = styled.div`
-  padding: 0.5em 1em;
-  max-width: 200px;
-  border-radius: 8px;
-  margin: 0.8em;
+  padding: 0.3em 0.8em;
+  border-radius: 10px;
+  max-width: 70%;
+  width: fit-content;
 `;
-const SentMessage = styled(ChatBubble)`
+const SentMessageBubble = styled(ChatBubble)`
   background-color: ${({ theme }) => theme.sentChatBubble};
-  border-top-right-radius: 0;
 `;
-const ReceivedMessage = styled(ChatBubble)`
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.8em;
+`;
+const ReceivedMessageBubble = styled(ChatBubble)`
   background-color: ${({ theme }) => theme.receivedChatBubble};
-  border-top-left-radius: 0;
 `;
+const SentMessageContainer = styled(MessageContainer)`
+  align-items: flex-end;
+`;
+const Time = styled.div`
+  font-size: 0.8em;
+`;
+const ReceivedMessageContainer = styled(MessageContainer)``;
 const Messages = ({ chatData }) => {
   const scrollContainerRef = useRef(null);
   // Scroll starts from the bottom when it refreshes or new message is being added.
@@ -54,9 +66,14 @@ const Messages = ({ chatData }) => {
     <ChatWrapper ref={scrollContainerRef}>
       {chatData.map((message) =>
         message.authorId === user.id ? (
-          <SentMessage key={message.id}>{message.content}</SentMessage>
+          <SentMessageContainer key={message.id}>
+            <SentMessageBubble>{message.content}</SentMessageBubble>
+            <Time>{formatDistance(new Date(), message.createdAt)} ago</Time>
+          </SentMessageContainer>
         ) : (
-          <ReceivedMessage key={message.id}>{message.content}</ReceivedMessage>
+          <ReceivedMessageContainer key={message.id}>
+            <ReceivedMessageBubble>{message.content}</ReceivedMessageBubble>
+          </ReceivedMessageContainer>
         )
       )}
     </ChatWrapper>
