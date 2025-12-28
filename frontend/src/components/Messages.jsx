@@ -50,11 +50,20 @@ const Time = styled.div`
 const ReceivedMessageContainer = styled(MessageContainer)``;
 const Messages = ({ chatData }) => {
   const scrollContainerRef = useRef(null);
-  // Scroll starts from the bottom when it refreshes or new message is being added.
+  const firstRender = useRef(true);
+  // Scroll starts from the bottom when new messages are added.
   useEffect(() => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
+      if (firstRender.current) {
+        scrollContainerRef.current.scrollTop =
+          scrollContainerRef.current.scrollHeight;
+        firstRender.current = false;
+        return;
+      }
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }
   }, [chatData]);
 
