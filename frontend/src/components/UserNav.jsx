@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 2em;
-  background-color: ${(props) => props.theme.userNavBgColor};
+  background-color: ${(props) => props.theme.primaryBgColor};
   overflow-y: auto;
   height: 100%;
   grid-column: 1/2;

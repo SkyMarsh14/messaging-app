@@ -10,13 +10,19 @@ const Wrapper = styled.div`
   grid-template-columns: 330px 1fr;
   color: ${(props) => props.theme.primaryTextColor};
 `;
+const OutletContainer = styled.div`
+  border-left: ${({ theme }) => theme.borderElementSeparator};
+  height: 100vh;
+`;
 const Dashboard = () => {
   const { data, error, loading, needsAuth } = useFetch(ENDPOINTS.users());
   if (data && !loading) {
     return (
       <Wrapper>
         <UserNav userData={data} />
-        <Outlet />
+        <OutletContainer>
+          <Outlet />
+        </OutletContainer>
       </Wrapper>
     );
   }

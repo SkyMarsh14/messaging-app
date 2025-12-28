@@ -1,6 +1,6 @@
 const darkTheme = {
   primaryTextColor: "#eee",
-  primaryBgColor: "#1C1d21",
+  primaryBgColor: "#0B1114",
   lightTextColor: " rgba(255, 255, 255, 0.5)",
   lightBgColor: "#bfbfbfff",
   linkBlueColor: "#85A1FF",
@@ -16,5 +16,6 @@ const darkTheme = {
   receivedChatBubble: "gray",
   scrollBarColor: "dark",
   scrollBarBgColor: "#555",
+  borderElementSeparator: "1px rgb(38, 38, 38) solid",
 };
 export default darkTheme;

@@ -5,11 +5,12 @@ import BottomChatElement from "./BottomChatElement";
 import Messages from "./Messages";
 import useFetch from "../hooks/useFetch";
 const Wrapper = styled.div`
-  grid-column: 2/3;
   padding: 1em;
-  height: inherit;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.primaryBgColor};
+  gap: 1em;
 `;
 
 const ChatPane = () => {

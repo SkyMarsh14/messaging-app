@@ -2,6 +2,8 @@ import styled from "styled-components";
 import messagingImg from "../assets/messaging.svg";
 const Wrapper = styled.div`
   display: flex;
+  background-color: ${({ theme }) => theme.primaryBgColor};
+  height: 100%;
   padding: 2px 0;
   grid-column: 2/3;
   justify-content: center;

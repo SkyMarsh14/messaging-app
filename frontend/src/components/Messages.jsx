@@ -3,7 +3,6 @@ import EmptyChat from "./EmptyChat";
 import { useEffect, useRef } from "react";
 
 const ChatWrapper = styled.div`
-  height: 100%;
   overflow-y: auto;
   scrollbar-color: ${({ theme }) => theme.scrollBarColor};
   &::-webkit-scrollbar {
