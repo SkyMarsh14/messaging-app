@@ -62,13 +62,24 @@ const messageController = {
         },
       });
       const chatRoomArray = [];
-      chatRooms.forEach((room) => {
-        room.chatRoomUsers.forEach((room) => {
-          if (room.user.id !== userId) {
-            chatRoomArray.push(room);
+      for (const room of chatRooms) {
+        for (const roomUser of room.chatRoomUsers) {
+          if (roomUser.user.id !== userId) {
+            if (roomUser.user?.profileFileId) {
+              const file = await prisma.file.findUnique({
+                where: {
+                  id: roomUser.user.profileFileId,
+                },
+                select: {
+                  url: true,
+                },
+              });
+              roomUser.user.url = file.url;
+            }
+            chatRoomArray.push(roomUser);
           }
-        });
-      });
+        }
+      }
       return res.json(chatRoomArray);
     } catch (err) {
       return res
