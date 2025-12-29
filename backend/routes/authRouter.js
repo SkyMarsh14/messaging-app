@@ -12,4 +12,5 @@ loginRouter.get("/logout", (req, res, next) => {
     res.json({ msg: "User has been successfully logged out." });
   });
 });
+loginRouter.get("/guest-login", loginController.guestLogin);
 export default loginRouter;

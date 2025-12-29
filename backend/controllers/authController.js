@@ -61,5 +61,26 @@ const loginController = {
       res.json({ token, user });
     },
   ],
+  guestLogin: async (req, res, next) => {
+    try {
+      // No validation requred for a guest.
+      const user = await prisma.user.findUnique({
+        where: {
+          username: "Guest",
+        },
+      });
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username: user.username,
+        },
+        process.env.TOKEN_SECRET,
+        { expiresIn: "1h" }
+      );
+      res.json({ token, user });
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 export default loginController;

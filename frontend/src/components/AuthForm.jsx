@@ -3,11 +3,11 @@ import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { useState, useRef, useContext, useEffect } from "react";
-import UserContext from "../helper/UserContext.js";
 import { useNavigate } from "react-router-dom";
 import AuthNavigation from "./AuthNavigation";
 import login from "../api/login.js";
 import signup from "../api/signup.js";
+import guestLogin from "../api/guestLogin.js";
 const Wrapper = styled.div`
   max-width: 400px;
   margin: auto;
@@ -28,6 +28,16 @@ const SubmitBtn = styled.button`
   &:first-letter {
     text-transform: capitalize;
   }
+`;
+const GuestLoginBtn = styled(SubmitBtn)`
+  width: fit-content;
+  white-space: nowrap;
+  padding: 0.5em 1em;
+  background: transparent;
+  border: 1px solid ${({ theme }) => theme.authBgColor};
+  font-weight: 500;
+  float: right;
+  clear: right;
 `;
 const PwContainer = styled.div`
   position: relative;
@@ -99,7 +109,17 @@ const AuthForm = ({ type = "login" }) => {
     if (localStorage.getItem("token") && localStorage.getItem("user"))
       navigate("/", { replace: true });
   }, []);
-
+  async function handleGuestLogin(e) {
+    e.preventDefault();
+    const { json, response } = await guestLogin();
+    if (response.status === 200) {
+      navigate("/");
+    }
+    if (json?.errors) {
+      localStorage.clear();
+      setErrors(json.errors);
+    }
+  }
   function toggleVisible(e) {
     e.preventDefault();
     setPasswordShown((prev) => !prev);
@@ -216,6 +236,9 @@ const AuthForm = ({ type = "login" }) => {
           </ErrorContainer>
         )}
         <SubmitBtn>{type}</SubmitBtn>
+        <GuestLoginBtn onClick={handleGuestLogin}>
+          Continue as a Guest
+        </GuestLoginBtn>
       </StyledForm>
       <AuthNavigation type={type} />
     </Wrapper>
