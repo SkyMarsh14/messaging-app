@@ -13,11 +13,12 @@ const Wrapper = styled.div`
 const Username = styled.div`
   font-size: 0.6em;
 `;
-const ProfileIcon = styled.div``;
-const IconContainer = styled.div`
+const ProfileIcon = styled.div`
   border: 0.2px groove ${({ theme }) => theme.lightTextColor};
   border-radius: 50%;
   padding: 0.15em;
+`;
+const IconContainer = styled(ProfileIcon)`
   background-color: ${({ theme }) => theme.iconBgColor};
 `;
 const UserContainer = styled.div`
@@ -32,8 +33,13 @@ const UserContainer = styled.div`
 const DefaultIcon = styled(HiUser)`
   color: ${(props) => props.theme.iconColor};
 `;
-const CustomIcon = styled(ProfileIcon)`
-  background-image: url(${(props) => props.url});
+const CustomIcon = styled.div`
+  width: 1em;
+  height: 1em;
+  background-image: url(${(props) => props.$url});
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 `;
 const UserNav = ({ userData }) => {
   const navigate = useNavigate();
@@ -45,13 +51,13 @@ const UserNav = ({ userData }) => {
     <Wrapper>
       {userData.map((user) => (
         <UserContainer onClick={(e) => handleClick(e, user.id)} key={user.id}>
-          {user.profile ? (
-            <CustomIcon src={user.profile.url} />
-          ) : (
-            <IconContainer>
+          <IconContainer>
+            {user.profile ? (
+              <CustomIcon $url={user.profile.url} />
+            ) : (
               <DefaultIcon />
-            </IconContainer>
-          )}
+            )}
+          </IconContainer>
           <Username>{user.username}</Username>
         </UserContainer>
       ))}

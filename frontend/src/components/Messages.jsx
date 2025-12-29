@@ -82,6 +82,7 @@ const Messages = ({ chatData }) => {
         ) : (
           <ReceivedMessageContainer key={message.id}>
             <ReceivedMessageBubble>{message.content}</ReceivedMessageBubble>
+            <Time>{formatDistance(new Date(), message.createdAt)} ago</Time>
           </ReceivedMessageContainer>
         )
       )}
