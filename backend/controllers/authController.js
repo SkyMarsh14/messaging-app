@@ -3,6 +3,7 @@ import prisma from "../db/prisma.js";
 import { createUserValidation, loginValidation } from "../lib/validators.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import seedChatData from "../lib/seedChatData.js";
 const loginController = {
   createUser: [
     createUserValidation,
@@ -14,12 +15,13 @@ const loginController = {
       const { username, password } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
       try {
-        await prisma.user.create({
+        const user = await prisma.user.create({
           data: {
             username,
             password: hashedPassword,
           },
         });
+        await seedChatData(user.id); // Seeds the chat data upon account creation
       } catch (err) {
         throw new Error(err);
       }

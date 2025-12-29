@@ -63,9 +63,9 @@ const messageController = {
       });
       const chatRoomArray = [];
       chatRooms.forEach((room) => {
-        room.chatRoomUsers.forEach((user) => {
-          if (user.userId !== userId) {
-            chatRoomArray.push(user);
+        room.chatRoomUsers.forEach((room) => {
+          if (room.user.id !== userId) {
+            chatRoomArray.push(room);
           }
         });
       });

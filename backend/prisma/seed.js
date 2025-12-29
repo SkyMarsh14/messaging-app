@@ -1,13 +1,14 @@
 import prisma from "../db/prisma.js";
 import getChatRoom from "../lib/getChatRoom.js";
-import { getMessages, users } from "../lib/seedData.js";
+import { getMessages, users, profile } from "../lib/seedData.js";
 async function main() {
   // --- Insert Data ---
   const messages = getMessages(users[0].id);
-  const userData = await prisma.user.createMany({
-    data: users,
-    skipDuplicates: true,
-  });
+  for (const user of users) {
+    await prisma.user.create({
+      data: user,
+    });
+  }
   const messageData = [];
   const processedChatRooms = new Map(); // create a cache and look up when creating a new chatRoom to prevent race condition.
   for (const m of messages) {
@@ -31,6 +32,7 @@ async function main() {
     data: messageData,
     skipDuplicates: true,
   });
+
   console.log("🌱 Database seeded successfully!");
 }
 
