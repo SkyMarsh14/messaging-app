@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { HiUser } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../helper/UserContext";
 
 const Wrapper = styled.div`
@@ -22,15 +22,17 @@ const ProfileIcon = styled.div`
   padding: 0.15em;
 `;
 const IconContainer = styled(ProfileIcon)`
-  background-color: ${({ theme }) => theme.iconBgColor};
+  background-color: ${({ theme }) => theme.userNavBgColor};
 `;
 const UserContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5em;
   padding: 0.2em 0.3em;
+  background-color: ${(props) =>
+    props.$isSelected ? props.theme.selectedUserNavColor : "inherit"};
   &:hover {
-    background-color: ${(props) => props.theme.iconBgHover};
+    background-color: ${(props) => props.theme.userNavBgHover};
   }
 `;
 const DefaultIcon = styled(HiUser)`
@@ -46,10 +48,13 @@ const CustomIcon = styled.div`
 `;
 const UserNav = () => {
   const { roomData } = useContext(UserContext);
+  const { chatRoomId } = useParams();
+  const [selectedChatId, setSelectedChatId] = useState(Number(chatRoomId));
   const navigate = useNavigate();
-  function handleClick(e, userId) {
+  function handleClick(e, chatRoomId) {
     e.preventDefault();
-    navigate(`/chat/${userId}`);
+    setSelectedChatId(chatRoomId);
+    navigate(`/chat/${chatRoomId}`);
   }
   return (
     <Wrapper>
@@ -57,6 +62,7 @@ const UserNav = () => {
         <UserContainer
           onClick={(e) => handleClick(e, roomUser.chatRoomId)}
           key={roomUser.id}
+          $isSelected={roomUser.chatRoomId === selectedChatId}
         >
           <IconContainer>
             {roomUser.user?.url ? (
