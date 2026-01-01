@@ -57,16 +57,6 @@ const loginValidation = [
     .notEmpty()
     .withMessage("Password is required.")
     .isLength({ min: 3, max: 40 })
-    .withMessage("Password is within the length of 3 to 40 characters.")
-    .custom(async (value, { req }) => {
-      const user = await prisma.user.findUnique({
-        where: {
-          username: req.body.username,
-          password: value,
-        },
-      });
-      if (!user) throw new Error("Either a password or username is incorrect.");
-      return true;
-    }),
+    .withMessage("Password is within the length of 3 to 40 characters."),
 ];
 export { createUserValidation, loginValidation };
