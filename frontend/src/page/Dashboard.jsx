@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import useFetch from "../hooks/useFetch.jsx";
-import ENDPOINTS from "../api/EndPoints.js";
+import useRoomFetch from "../hooks/useRoomFetch.jsx";
 import UserNav from "../components/UserNav.jsx";
 import { Outlet } from "react-router-dom";
 
@@ -15,11 +14,11 @@ const OutletContainer = styled.div`
   height: 100vh;
 `;
 const Dashboard = () => {
-  const { data, error, loading, needsAuth } = useFetch(ENDPOINTS.users());
-  if (data && !loading) {
+  const { roomData, setRoomData, error, loading } = useRoomFetch();
+  if (roomData && !loading) {
     return (
       <Wrapper>
-        <UserNav userData={data} />
+        <UserNav />
         <OutletContainer>
           <Outlet />
         </OutletContainer>

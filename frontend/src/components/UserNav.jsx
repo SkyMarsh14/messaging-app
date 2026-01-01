@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { HiUser } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../helper/UserContext";
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,7 +44,8 @@ const CustomIcon = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
 `;
-const UserNav = ({ userData }) => {
+const UserNav = () => {
+  const { roomData } = useContext(UserContext);
   const navigate = useNavigate();
   function handleClick(e, userId) {
     e.preventDefault();
@@ -49,16 +53,19 @@ const UserNav = ({ userData }) => {
   }
   return (
     <Wrapper>
-      {userData.map((user) => (
-        <UserContainer onClick={(e) => handleClick(e, user.id)} key={user.id}>
+      {roomData.map((roomUser) => (
+        <UserContainer
+          onClick={(e) => handleClick(e, roomUser.chatRoomId)}
+          key={roomUser.id}
+        >
           <IconContainer>
-            {user.profile ? (
-              <CustomIcon $url={user.profile.url} />
+            {roomUser.user?.url ? (
+              <CustomIcon $url={roomUser.user.url} />
             ) : (
               <DefaultIcon />
             )}
           </IconContainer>
-          <Username>{user.username}</Username>
+          <Username>{roomUser.user.username}</Username>
         </UserContainer>
       ))}
     </Wrapper>

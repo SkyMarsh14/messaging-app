@@ -13,7 +13,7 @@ const routes = [
         element: <ChatPlaceHolder />,
       },
       {
-        path: "/chat/:userId",
+        path: "/chat/:chatRoomId",
         element: <ChatPane />,
       },
     ],

@@ -68,7 +68,7 @@ const Messages = ({ chatData }) => {
   }, [chatData]);
 
   const user = JSON.parse(localStorage.getItem("user"));
-  if (chatData.length === 0) {
+  if (!chatData) {
     return <EmptyChat />;
   }
   return (

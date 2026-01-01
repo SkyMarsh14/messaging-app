@@ -6,5 +6,8 @@ const ENDPOINTS = {
   messages: (userId) =>
     import.meta.env.VITE_BACKEND_URL + `message/user/${userId}`,
   sendMessage: () => import.meta.env.VITE_BACKEND_URL + `message/send`,
+  userRoom: () => import.meta.env.VITE_BACKEND_URL + "message/room",
+  messageByRoom: (roomId) =>
+    import.meta.env.VITE_BACKEND_URL + `message/chatRoom/${roomId}`,
 };
 export default ENDPOINTS;

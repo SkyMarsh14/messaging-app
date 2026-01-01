@@ -15,16 +15,16 @@ const Wrapper = styled.div`
 `;
 
 const ChatPane = () => {
-  const { userId } = useParams();
-  const url = ENDPOINTS.messages(userId);
-  const { data, setData, error, loading } = useFetch(url, [userId]);
+  const { chatRoomId } = useParams();
+  const url = ENDPOINTS.messageByRoom(chatRoomId);
+  const { data, setData, error, loading } = useFetch(url, [chatRoomId]);
   if (error) {
     throw new Error("Requested route does not exist"); // Rethrow the error outside of the hook to display Error boundary.
   }
   if (data && !loading) {
     return (
       <Wrapper>
-        <Messages chatData={data} />
+        <Messages chatData={data.messages} />
         <BottomChatElement setChatData={setData} />
       </Wrapper>
     );
