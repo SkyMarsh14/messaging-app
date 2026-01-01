@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import EmptyChat from "./EmptyChat";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { formatDistance } from "date-fns";
+import UserContext from "../helper/UserContext";
 
 const ChatWrapper = styled.div`
   overflow-y: auto;
@@ -48,7 +49,8 @@ const Time = styled.div`
   font-size: 0.8em;
 `;
 const ReceivedMessageContainer = styled(MessageContainer)``;
-const Messages = ({ chatData }) => {
+const Messages = () => {
+  const { chatData } = useContext(UserContext);
   const scrollContainerRef = useRef(null);
   const firstRender = useRef(true);
   // Scroll starts from the bottom when new messages are added.
@@ -73,7 +75,7 @@ const Messages = ({ chatData }) => {
   }
   return (
     <ChatWrapper ref={scrollContainerRef}>
-      {chatData.map((message) =>
+      {chatData.messages.map((message) =>
         message.authorId === user.id ? (
           <SentMessageContainer key={message.id}>
             <SentMessageBubble>{message.content}</SentMessageBubble>

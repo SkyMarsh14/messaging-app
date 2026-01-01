@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { IoIosSend } from "react-icons/io";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ENDPOINTS from "../api/EndPoints";
 import { useParams, useNavigate } from "react-router-dom";
+import UserContext from "../helper/UserContext";
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,14 +45,16 @@ const Icon = styled(IoIosSend)`
     text-decoration: underline;
   }
 `;
-const ChatInput = ({ setChatData }) => {
+const ChatInput = () => {
+  const { setChatData } = useContext(UserContext);
   const navigate = useNavigate();
   const url = ENDPOINTS.sendMessage();
-  const { userId } = useParams();
+  const { chatRoomId } = useParams();
   const [message, setMessage] = useState(null);
   const [composing, setComposition] = useState(false);
   const startComposition = () => setComposition(true);
   const endComposition = () => setComposition(false);
+  const user = JSON.parse(localStorage.getItem("user"));
   function handleChange(e) {
     setMessage(e.target.value);
   }
@@ -70,7 +73,7 @@ const ChatInput = ({ setChatData }) => {
     setMessage("");
     const body = JSON.stringify({
       content: message,
-      receiverId: userId,
+      chatRoomId,
     });
 
     const response = await fetch(url, {
@@ -87,7 +90,12 @@ const ChatInput = ({ setChatData }) => {
     }
     const json = await response.json();
     //Avoid requerying the whole chat and add message at the end instead.
-    setChatData((prev) => [...prev, json.createdMessage]);
+    setChatData((prev) => {
+      return {
+        ...prev,
+        messages: [...prev.messages, json.createdMessage],
+      };
+    });
   }
   return (
     <Wrapper>

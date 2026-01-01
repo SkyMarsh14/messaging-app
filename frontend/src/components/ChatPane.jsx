@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import ENDPOINTS from "../api/EndPoints";
 import { useParams } from "react-router-dom";
+import useFetchChatData from "../hooks/useFetchChatData";
 import BottomChatElement from "./BottomChatElement";
 import Messages from "./Messages";
-import useFetch from "../hooks/useFetch";
+
 const Wrapper = styled.div`
   padding: 1em;
   height: 100%;
@@ -16,16 +17,18 @@ const Wrapper = styled.div`
 
 const ChatPane = () => {
   const { chatRoomId } = useParams();
-  const url = ENDPOINTS.messageByRoom(chatRoomId);
-  const { data, setData, error, loading } = useFetch(url, [chatRoomId]);
+  const { chatData, setChatData, error, loading } = useFetchChatData(
+    chatRoomId,
+    [chatRoomId]
+  );
   if (error) {
-    throw new Error("Requested route does not exist"); // Rethrow the error outside of the hook to display Error boundary.
+    throw new Error(error); // Rethrow the error outside of the hook to display Error boundary.
   }
-  if (data && !loading) {
+  if (chatData && !loading) {
     return (
       <Wrapper>
-        <Messages chatData={data.messages} />
-        <BottomChatElement setChatData={setData} />
+        <Messages />
+        <BottomChatElement />
       </Wrapper>
     );
   }

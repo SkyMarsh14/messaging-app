@@ -1,10 +1,10 @@
 import ChatInput from "./ChatInput";
 import styled from "styled-components";
 const Wrapper = styled.div``;
-const BottomChatElement = ({ setChatData }) => {
+const BottomChatElement = () => {
   return (
     <Wrapper>
-      <ChatInput setChatData={setChatData} />
+      <ChatInput />
     </Wrapper>
   );
 };

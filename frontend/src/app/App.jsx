@@ -10,8 +10,11 @@ const router = createBrowserRouter(routes);
 const App = () => {
   const [user, setUser] = useState(localStorage.getItem("user"));
   const [roomData, setRoomData] = useState(null);
+  const [chatData, setChatData] = useState(null);
   return (
-    <UserContext.Provider value={{ user, setUser, roomData, setRoomData }}>
+    <UserContext.Provider
+      value={{ user, setUser, roomData, setRoomData, chatData, setChatData }}
+    >
       <ThemeProvider theme={theme}>
         <GlobalStyle bodyBgColor={theme.bodyBgColor} />
         <RouterProvider router={router} />
