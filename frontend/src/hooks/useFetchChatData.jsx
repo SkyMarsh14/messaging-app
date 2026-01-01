@@ -5,12 +5,16 @@ import UserContext from "../helper/UserContext";
 import ENDPOINTS from "../api/EndPoints";
 
 const useFetchChatData = (chatRoomId, dependancy = []) => {
-  const { chatData, setChatData } = useContext(UserContext);
+  const { chatData, setChatData, setSelectedRoom, roomData } =
+    useContext(UserContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [needsAuth, setNeedsAuth] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
+    setSelectedRoom(
+      roomData.find((room) => room.chatRoomId === Number(chatRoomId))
+    );
     const fetchData = async () => {
       try {
         const url = ENDPOINTS.messageByRoom(chatRoomId);

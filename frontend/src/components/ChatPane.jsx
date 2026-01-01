@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ENDPOINTS from "../api/EndPoints";
 import { useParams } from "react-router-dom";
 import useFetchChatData from "../hooks/useFetchChatData";
 import BottomChatElement from "./BottomChatElement";

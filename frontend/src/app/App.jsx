@@ -11,9 +11,19 @@ const App = () => {
   const [user, setUser] = useState(localStorage.getItem("user"));
   const [roomData, setRoomData] = useState(null);
   const [chatData, setChatData] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
   return (
     <UserContext.Provider
-      value={{ user, setUser, roomData, setRoomData, chatData, setChatData }}
+      value={{
+        user,
+        setUser,
+        roomData,
+        setRoomData,
+        chatData,
+        setChatData,
+        selectedRoom,
+        setSelectedRoom,
+      }}
     >
       <ThemeProvider theme={theme}>
         <GlobalStyle bodyBgColor={theme.bodyBgColor} />

@@ -7,5 +7,7 @@ const UserContext = createContext({
   setUser: null,
   chatRoomId: null,
   setChatRoomId: null,
+  selectedRoom: null,
+  setSelectedRoom: null,
 });
 export default UserContext;

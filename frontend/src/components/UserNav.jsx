@@ -47,13 +47,11 @@ const CustomIcon = styled.div`
   background-repeat: no-repeat;
 `;
 const UserNav = () => {
-  const { roomData } = useContext(UserContext);
-  const { chatRoomId } = useParams();
-  const [selectedChatId, setSelectedChatId] = useState(Number(chatRoomId));
+  const { roomData, selectedRoom, setSelectedRoom } = useContext(UserContext);
   const navigate = useNavigate();
   function handleClick(e, chatRoomId) {
     e.preventDefault();
-    setSelectedChatId(chatRoomId);
+    setSelectedRoom(roomData.find((room) => room.chatRoomId === chatRoomId));
     navigate(`/chat/${chatRoomId}`);
   }
   return (
@@ -62,7 +60,7 @@ const UserNav = () => {
         <UserContainer
           onClick={(e) => handleClick(e, roomUser.chatRoomId)}
           key={roomUser.id}
-          $isSelected={roomUser.chatRoomId === selectedChatId}
+          $isSelected={selectedRoom?.chatRoomId === roomUser.chatRoomId}
         >
           <IconContainer>
             {roomUser.user?.url ? (
