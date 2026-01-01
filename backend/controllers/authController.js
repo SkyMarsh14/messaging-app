@@ -49,10 +49,10 @@ const loginController = {
           password: false,
         },
       });
-      if (!user) return res.json({ msg: "User doesn't exist" });
+      if (!user) return res.json([{ msg: "User doesn't exist" }]);
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return res.status(401).json({ msg: "Incorrect credentials" });
+        return res.status(401).json([{ msg: "Incorrect credentials" }]);
       }
       delete user.password;
       const token = jwt.sign(

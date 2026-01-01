@@ -7,7 +7,7 @@ const seedChatData = async (receiverId) => {
   const messageData = [];
   const processedChatRooms = new Map();
   for (const m of messages) {
-    const users = [m.authorId, m.receiverId];
+    const users = [m.authorId, m.receiverId].sort();
     const roomKey = users.join("-");
     let chatRoom;
     if (processedChatRooms.has(roomKey)) {
