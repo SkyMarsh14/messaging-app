@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import { HiUser } from "react-icons/hi";
-import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 import UserContext from "../helper/UserContext";
+import UserIcon from "./UserIcon";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   font-size: 2em;
   background-color: ${(props) => props.theme.primaryBgColor};
   overflow-y: auto;
@@ -15,14 +16,6 @@ const Wrapper = styled.div`
 `;
 const Username = styled.div`
   font-size: 0.6em;
-`;
-const ProfileIcon = styled.div`
-  border: 0.2px groove ${({ theme }) => theme.lightTextColor};
-  border-radius: 50%;
-  padding: 0.15em;
-`;
-const IconContainer = styled(ProfileIcon)`
-  background-color: ${({ theme }) => theme.userNavBgColor};
 `;
 const UserContainer = styled.div`
   display: flex;
@@ -35,43 +28,38 @@ const UserContainer = styled.div`
     background-color: ${(props) => props.theme.userNavBgHover};
   }
 `;
-const DefaultIcon = styled(HiUser)`
-  color: ${(props) => props.theme.iconColor};
-`;
-const CustomIcon = styled.div`
-  width: 1em;
-  height: 1em;
-  background-image: url(${(props) => props.$url});
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
 const UserNav = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { roomData, selectedRoom, setSelectedRoom } = useContext(UserContext);
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   function handleClick(e, chatRoomId) {
     e.preventDefault();
     setSelectedRoom(roomData.find((room) => room.chatRoomId === chatRoomId));
     navigate(`/chat/${chatRoomId}`);
   }
+  function togglePopup(e) {
+    e.preventDefault();
+    setIsOpen(!prev);
+  }
   return (
     <Wrapper>
-      {roomData.map((roomUser) => (
-        <UserContainer
-          onClick={(e) => handleClick(e, roomUser.chatRoomId)}
-          key={roomUser.id}
-          $isSelected={selectedRoom?.chatRoomId === roomUser.chatRoomId}
-        >
-          <IconContainer>
-            {roomUser.user?.url ? (
-              <CustomIcon $url={roomUser.user.url} />
-            ) : (
-              <DefaultIcon />
-            )}
-          </IconContainer>
-          <Username>{roomUser.user.username}</Username>
-        </UserContainer>
-      ))}
+      <div>
+        {roomData.map((roomUser) => (
+          <UserContainer
+            onClick={(e) => handleClick(e, roomUser.chatRoomId)}
+            key={roomUser.id}
+            $isSelected={selectedRoom?.chatRoomId === roomUser.chatRoomId}
+          >
+            <UserIcon url={roomUser.user?.url} />
+            <Username>{roomUser.user.username}</Username>
+          </UserContainer>
+        ))}
+      </div>
+      <UserContainer onClick={togglePopup}>
+        <UserIcon url={user?.url} />
+        <Username>{user.username}</Username>
+      </UserContainer>
     </Wrapper>
   );
 };

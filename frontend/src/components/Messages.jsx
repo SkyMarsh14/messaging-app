@@ -3,6 +3,7 @@ import EmptyChat from "./EmptyChat";
 import { useContext, useEffect, useRef } from "react";
 import { formatDistance } from "date-fns";
 import UserContext from "../helper/UserContext";
+import ChatNav from "./ChatNav";
 
 const ChatWrapper = styled.div`
   overflow-y: auto;
@@ -74,21 +75,24 @@ const Messages = () => {
     return <EmptyChat />;
   }
   return (
-    <ChatWrapper ref={scrollContainerRef}>
-      {chatData.messages.map((message) =>
-        message.authorId === user.id ? (
-          <SentMessageContainer key={message.id}>
-            <SentMessageBubble>{message.content}</SentMessageBubble>
-            <Time>{formatDistance(new Date(), message.createdAt)} ago</Time>
-          </SentMessageContainer>
-        ) : (
-          <ReceivedMessageContainer key={message.id}>
-            <ReceivedMessageBubble>{message.content}</ReceivedMessageBubble>
-            <Time>{formatDistance(new Date(), message.createdAt)} ago</Time>
-          </ReceivedMessageContainer>
-        )
-      )}
-    </ChatWrapper>
+    <>
+      <ChatNav />
+      <ChatWrapper ref={scrollContainerRef}>
+        {chatData.messages.map((message) =>
+          message.authorId === user.id ? (
+            <SentMessageContainer key={message.id}>
+              <SentMessageBubble>{message.content}</SentMessageBubble>
+              <Time>{formatDistance(new Date(), message.createdAt)} ago</Time>
+            </SentMessageContainer>
+          ) : (
+            <ReceivedMessageContainer key={message.id}>
+              <ReceivedMessageBubble>{message.content}</ReceivedMessageBubble>
+              <Time>{formatDistance(new Date(), message.createdAt)} ago</Time>
+            </ReceivedMessageContainer>
+          )
+        )}
+      </ChatWrapper>
+    </>
   );
 };
 export default Messages;

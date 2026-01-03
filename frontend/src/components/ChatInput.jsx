@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import UserContext from "../helper/UserContext";
 
 const Wrapper = styled.div`
+  margin: 1em;
   display: flex;
   align-items: center;
   border-radius: 8px;

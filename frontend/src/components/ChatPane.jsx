@@ -5,7 +5,6 @@ import BottomChatElement from "./BottomChatElement";
 import Messages from "./Messages";
 
 const Wrapper = styled.div`
-  padding: 1em;
   height: 100%;
   display: flex;
   flex-direction: column;
