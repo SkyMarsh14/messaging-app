@@ -18,5 +18,6 @@ const darkTheme = {
   scrollBarColor: "dark",
   scrollBarBgColor: "#555",
   borderElementSeparator: "1px rgb(38, 38, 38) solid",
+  popupBgColor: "#282B2E",
 };
 export default darkTheme;

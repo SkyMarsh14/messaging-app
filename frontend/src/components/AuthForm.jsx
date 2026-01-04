@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthNavigation from "./AuthNavigation";
 import login from "../api/login.js";
