@@ -32,7 +32,7 @@ const useRoomFetch = () => {
           if (response.status === 401) {
             console.error("Invalid or expired authorization token.");
             setNeedsAuth(true);
-            localStorage.removeItem("token");
+            localStorage.clear();
             return navigate("/login");
           }
           throw new Error(`Response status: ${response.status}`);

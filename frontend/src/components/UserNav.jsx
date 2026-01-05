@@ -33,13 +33,29 @@ const BottomElement = styled.div`
   position: relative;
 `;
 const LogoutPopup = styled.div`
-  font-size: 0.8em;
+  font-size: 0.6em;
   position: absolute;
-  visibility: ${(props) => (props.$isVisible ? "visible" : "hidden")};
+  width: 70%;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: ${(props) => (props.$isVisible ? "1" : "0")};
+  transition: opacity 0.3s ease-in-out;
   background-color: ${({ theme }) => theme.popupBgColor};
-  position: relative;
   text-align: center;
   cursor: pointer;
+  border-radius: 6px;
+  padding: 8px 1em;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: ${({ theme }) => theme.popupBgColor} transparent transparent;
+  }
 `;
 const UserNav = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -68,6 +84,11 @@ const UserNav = () => {
     e.preventDefault();
     setIsVisible(!isVisible);
   }
+  function handleLogout(e) {
+    e.preventDefault();
+    localStorage.clear();
+    navigate("/login");
+  }
   return (
     <Wrapper>
       <div>
@@ -83,7 +104,11 @@ const UserNav = () => {
         ))}
       </div>
       <BottomElement ref={bottomElementRef}>
-        <LogoutPopup ref={modalRef} $isVisible={isVisible}>
+        <LogoutPopup
+          ref={modalRef}
+          $isVisible={isVisible}
+          onClick={handleLogout}
+        >
           Logout
         </LogoutPopup>
         <UserContainer onClick={togglePopup}>
