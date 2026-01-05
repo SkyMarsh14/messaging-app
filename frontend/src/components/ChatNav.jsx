@@ -12,13 +12,20 @@ const Wrapper = styled.div`
   gap: 10px;
 `;
 const Username = styled.div``;
+const Bio = styled.div`
+  font-size: 0.5em;
+  margin-left: auto;
+  margin-right: 1em;
+`;
 const ChatNav = () => {
   const { selectedRoom } = useContext(UserContext);
-
   return (
     <Wrapper>
       <UserIcon url={selectedRoom.user?.url} />
       <Username>{selectedRoom.user.username}</Username>
+      <Bio>
+        {selectedRoom.user?.bio || "The user has not filled out the bio yet."}
+      </Bio>
     </Wrapper>
   );
 };
