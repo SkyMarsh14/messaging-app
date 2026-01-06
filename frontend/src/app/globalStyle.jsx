@@ -15,6 +15,7 @@ body {
   /* 4. Add accessible line-height */
   line-height: 1.5;
   background-color:${({ bodyBgColor }) => bodyBgColor};
+  color:${({ textColor }) => textColor};
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
 }

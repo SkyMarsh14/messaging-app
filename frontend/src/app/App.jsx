@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const router = createBrowserRouter(routes);
 const App = () => {
-  const [user, setUser] = useState(localStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [roomData, setRoomData] = useState(null);
   const [chatData, setChatData] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -26,7 +26,10 @@ const App = () => {
       }}
     >
       <ThemeProvider theme={theme}>
-        <GlobalStyle bodyBgColor={theme.bodyBgColor} />
+        <GlobalStyle
+          bodyBgColor={theme.primaryBgColor}
+          textColor={theme.primaryTextColor}
+        />
         <RouterProvider router={router} />
       </ThemeProvider>
     </UserContext.Provider>

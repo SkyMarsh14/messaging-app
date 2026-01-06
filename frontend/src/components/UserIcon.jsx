@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { HiUser } from "react-icons/hi";
 
 const IconContainer = styled.div`
+  font-size: ${(props) => props.$fontSize || "1em"};
   border: 0.2px groove ${({ theme }) => theme.lightTextColor};
+  width: fit-content;
   border-radius: 50%;
   padding: 0.15em;
   background-color: ${({ theme }) => theme.userNavBgColor};
@@ -19,9 +21,9 @@ const CustomIcon = styled.div`
   background-repeat: no-repeat;
 `;
 
-const UserIcon = ({ url }) => {
+const UserIcon = ({ url, $fontSize }) => {
   return (
-    <IconContainer>
+    <IconContainer $fontSize={$fontSize}>
       {url ? <CustomIcon $url={url} /> : <DefaultIcon />}
     </IconContainer>
   );

@@ -4,10 +4,10 @@ const darkTheme = {
   lightTextColor: " rgba(255, 255, 255, 0.5)",
   lightBgColor: "#bfbfbfff",
   linkBlueColor: "#85A1FF",
+  secondaryBgColor: "#262626",
   authBgColor: "#925fe2",
   btnBgColor: "#333437",
-  errorBgColor: "#D12D33",
-  bodyBgColor: "#3c3c44",
+  errorBgColor: "#543435ff",
   iconColor: "#a8a8a8",
   userNavBgColor: "#313131ff",
   userNavBgHover: "#353535",
@@ -20,5 +20,8 @@ const darkTheme = {
   borderElementSeparator: "1px rgb(38, 38, 38) solid",
   popupBgColor: "#282B2E",
   modalBorderColor: "#363636",
+  uploadBtnBg: "#4A5DF9",
+  confirmBtnText: "#485AEF",
+  modalSeparator: "1px #2B3036 solid",
 };
 export default darkTheme;

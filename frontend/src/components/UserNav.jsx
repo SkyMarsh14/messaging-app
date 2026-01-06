@@ -103,7 +103,10 @@ const UserNav = () => {
     localStorage.clear();
     navigate("/login");
   }
-  function handleEditProfile() {}
+  function handleEditProfile(e) {
+    e.preventDefault();
+    navigate("/edit-profile");
+  }
   return (
     <Wrapper>
       <div>
