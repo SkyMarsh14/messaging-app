@@ -118,5 +118,26 @@ const userController = {
     }
     return res.json({ msg: "Profile picture successfully uploaded", fileData });
   },
+  profile: async (req, res, next) => {
+    try {
+      const { profile } = await prisma.user.findUnique({
+        where: {
+          id: req.user.id,
+        },
+        select: {
+          profile: true,
+        },
+      });
+      if (profile) {
+        throw new Error(
+          "Invalid Request. The user does not have a profile to delete."
+        );
+      }
+      cloudinary.uploader.destroy(profile.public_id);
+      return res.json({ msg: "Profile picture successfully deleted." });
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 export default userController;

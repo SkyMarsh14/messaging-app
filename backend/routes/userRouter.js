@@ -10,4 +10,5 @@ userRouter.post(
   userController.uploadProfile
 );
 userRouter.get("/others", userController.getAllUsers);
+userRouter.delete("/profile", userController.profile);
 export default userRouter;
