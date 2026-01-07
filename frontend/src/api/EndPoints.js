@@ -9,5 +9,6 @@ const ENDPOINTS = {
   userRoom: () => import.meta.env.VITE_BACKEND_URL + "message/room",
   messageByRoom: (roomId) =>
     import.meta.env.VITE_BACKEND_URL + `message/chatRoom/${roomId}`,
+  profile: () => import.meta.env.VITE_BACKEND_URL + "user/profile",
 };
 export default ENDPOINTS;

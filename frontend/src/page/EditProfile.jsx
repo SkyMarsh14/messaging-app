@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../helper/UserContext";
 import UserIcon from "../components/UserIcon";
 import FullScreenModal from "../components/FullScreenModal";
+import { useNavigate } from "react-router-dom";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -44,7 +45,11 @@ const PhotoUploadBtn = styled.button`
 
 const EditProfile = () => {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    if (!user) return navigate("/login");
+  });
   function handleClick(e) {
     e.preventDefault();
     setShowModal(!showModal);
