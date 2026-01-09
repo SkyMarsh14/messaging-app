@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthNavigation from "./AuthNavigation";
 import login from "../api/login.js";
 import signup from "../api/signup.js";
 import guestLogin from "../api/guestLogin.js";
+import UserContext from "../helper/UserContext.js";
 const Wrapper = styled.div`
   max-width: 400px;
   margin: auto;
@@ -104,7 +105,7 @@ const AuthForm = ({ type = "login" }) => {
   const navigate = useNavigate();
   const pwInputRef = useRef(null);
   const pwConfirmInputRef = useRef(null);
-
+  const { setUser } = useContext(UserContext);
   useEffect(() => {
     if (localStorage.getItem("token") && localStorage.getItem("user"))
       navigate("/", { replace: true });
@@ -152,6 +153,7 @@ const AuthForm = ({ type = "login" }) => {
     if (type === "login") {
       const { json, response } = await login(formBody);
       if (response.status === 200) {
+        setUser(json.user);
         navigate("/");
       } else if (json?.errors) {
         localStorage.removeItem("token");

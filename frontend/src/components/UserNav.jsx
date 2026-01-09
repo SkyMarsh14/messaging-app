@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   background-color: ${(props) => props.theme.primaryBgColor};
   height: 100%;
   grid-column: 1/2;
-  overflow-y: scroll;
 `;
 const Username = styled.div`
   font-size: 0.6em;
