@@ -105,6 +105,9 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [hasChanged, setHasChanged] = useState(false);
+  function handleChange(e) {
+    setHasChanged(true);
+  }
   useEffect(() => {
     if (!user) return navigate("/login");
   });
@@ -168,6 +171,7 @@ const EditProfile = () => {
             <FormFieldContainer>
               <Label htmlFor="username">Username</Label>
               <Input
+                onChange={handleChange}
                 maxLength={30}
                 minLength={4}
                 id="username"
@@ -180,6 +184,7 @@ const EditProfile = () => {
             <FormFieldContainer>
               <Label htmlFor="bio">Bio</Label>
               <Textarea
+                onChange={handleChange}
                 maxLength={300}
                 name="bio"
                 id="bio"
