@@ -73,7 +73,8 @@ const ModalMenu = styled.div`
 
 const UserNav = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { roomData, selectedRoom, setSelectedRoom } = useContext(UserContext);
+  const { user, roomData, selectedRoom, setSelectedRoom } =
+    useContext(UserContext);
   const modalRef = useRef(null);
   const bottomElementRef = useRef(null);
   useEffect(() => {
@@ -87,7 +88,6 @@ const UserNav = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isVisible]);
-  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   function handleClick(e, chatRoomId) {
     e.preventDefault();

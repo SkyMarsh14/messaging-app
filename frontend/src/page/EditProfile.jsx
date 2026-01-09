@@ -61,7 +61,7 @@ const EditProfile = () => {
         <Container>
           <Title>Edit Profile</Title>
           <UserIconContainer>
-            <UserIcon $fontSize="3em" />
+            <UserIcon $fontSize="3em" url={user.url} />
             <Username>{user.username}</Username>
             <PhotoUploadBtn onClick={handleClick}>Change Photo</PhotoUploadBtn>
           </UserIconContainer>

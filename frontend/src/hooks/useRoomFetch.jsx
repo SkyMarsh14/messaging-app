@@ -15,7 +15,10 @@ const useRoomFetch = () => {
       try {
         const url = ENDPOINTS.userRoom();
         setLoading(true);
-        if (!localStorage.getItem("token")) navigate("/login");
+        if (!localStorage.getItem("token") || !localStorage.getItem("user")) {
+          localStorage.clear();
+          navigate("/login");
+        }
         const token = localStorage.getItem("token");
         const options = {
           method: "GET",

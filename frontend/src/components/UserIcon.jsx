@@ -17,7 +17,8 @@ const CustomIcon = styled.div`
   height: 1em;
   background-image: url(${(props) => props.$url});
   background-position: center;
-  background-size: contain;
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 `;
 

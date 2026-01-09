@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRef, useEffect, useContext, useState } from "react";
+import { useRef, useEffect, useContext } from "react";
 import UserContext from "../helper/UserContext";
 import ENDPOINTS from "../api/EndPoints";
 import { useNavigate } from "react-router-dom";
@@ -41,7 +41,7 @@ const FileInput = styled.input`
 `;
 const FullScreenModal = ({ setShowModal }) => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const uploadUrl = ENDPOINTS.profile();
   const bgRef = useRef(null);
   const dialogRef = useRef(null);
@@ -67,8 +67,6 @@ const FullScreenModal = ({ setShowModal }) => {
     formData.append("profilePic", file);
     try {
       console.log("Uploading file:", file?.name, file?.size, file?.type);
-      for (const pair of formData.entries())
-        console.log("formData entry:", pair[0], pair[1]);
       const response = await fetch(uploadUrl, {
         body: formData,
         method: "POST",
@@ -85,7 +83,12 @@ const FullScreenModal = ({ setShowModal }) => {
         throw new Error(response.statusText);
       }
       const json = await response.json();
-      console.log(json);
+      setUser((prev) => ({ ...prev, url: json.fileData.url }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...user, url: json.fileData.url })
+      );
+      setShowModal(false);
     } catch (err) {
       console.error(err);
     }
