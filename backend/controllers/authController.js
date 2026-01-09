@@ -49,10 +49,22 @@ const loginController = {
           password: false,
         },
       });
+
       if (!user) return res.json([{ msg: "User doesn't exist" }]);
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
         return res.status(401).json([{ msg: "Incorrect credentials" }]);
+      }
+      if (user?.profileFileId) {
+        const { url } = await prisma.file.findUnique({
+          where: {
+            id: user.profileFileId,
+          },
+          select: {
+            url: true,
+          },
+        });
+        user.url = url;
       }
       delete user.password;
       const token = jwt.sign(
@@ -71,6 +83,15 @@ const loginController = {
           username: "Guest",
         },
       });
+      const { url } = await prisma.file.findUnique({
+        where: {
+          id: user.profileFileId,
+        },
+        select: {
+          url: true,
+        },
+      });
+      user.url = url;
       const token = jwt.sign(
         {
           id: user.id,

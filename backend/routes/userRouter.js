@@ -5,7 +5,7 @@ const userRouter = Router();
 userRouter.get("/config", userController.getConfig);
 userRouter.post("/config", userController.updateConfig);
 userRouter.post(
-  "/profile/upload",
+  "/profile",
   profileUpload.single("profilePic"),
   userController.uploadProfile
 );
