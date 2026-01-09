@@ -83,15 +83,17 @@ const loginController = {
           username: "Guest",
         },
       });
-      const { url } = await prisma.file.findUnique({
-        where: {
-          id: user.profileFileId,
-        },
-        select: {
-          url: true,
-        },
-      });
-      user.url = url;
+      if (user.profileFileId) {
+        const { url } = await prisma.file.findUnique({
+          where: {
+            id: user.profileFileId,
+          },
+          select: {
+            url: true,
+          },
+        });
+        user.url = url;
+      }
       const token = jwt.sign(
         {
           id: user.id,
