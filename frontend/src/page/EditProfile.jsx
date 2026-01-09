@@ -142,7 +142,8 @@ const EditProfile = () => {
       return navigate("/login");
     }
     const data = await response.json();
-    setUser({ ...data, url: user.url });
+    data.url = user?.url;
+    setUser(data);
     localStorage.setItem("user", JSON.stringify(data));
   }
   return (
@@ -163,7 +164,7 @@ const EditProfile = () => {
           </StyledLink>
           <Title>Edit Profile</Title>
           <UserIconContainer>
-            <UserIcon $fontSize="3em" url={user.url} />
+            <UserIcon $fontSize="3em" url={user?.url} />
             <Username>{user.username}</Username>
             <PhotoUploadBtn onClick={handleClick}>Change Photo</PhotoUploadBtn>
           </UserIconContainer>

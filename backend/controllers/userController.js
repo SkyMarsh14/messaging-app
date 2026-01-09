@@ -6,12 +6,20 @@ import addColorProperty from "../lib/addColorProperty.js";
 
 const userController = {
   getConfig: async (req, res) => {
-    const userConfig = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         id: req.user.id,
       },
     });
-    res.json({ config: userConfig });
+    if (user?.profileFileId) {
+      const { url } = await prisma.file.findUnique({
+        where: {
+          id: user.profileFileId,
+        },
+      });
+      user.url = url;
+    }
+    res.json(user);
   },
   getAllUsers: async (req, res) => {
     try {
@@ -48,7 +56,7 @@ const userController = {
     body("bio")
       .optional()
       .custom((value, { req }) => {
-        if (!value && !req.body.bio) {
+        if (!value && !req.body.username) {
           throw new Error("At least one of username or bio must be provided.");
         }
         return true;

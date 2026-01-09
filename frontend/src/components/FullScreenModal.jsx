@@ -60,6 +60,27 @@ const FullScreenModal = ({ setShowModal }) => {
     inputRef.current.click(); // This will hide the modal.
     setShowModal(true);
   }
+  async function handleRemovePhoto(e) {
+    const url = ENDPOINTS.profile();
+    const token = localStorage.getItem("token");
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    });
+    if (response.status === 401) {
+      console.error("Invalid or expired authorization");
+      localStorage.clear();
+      return navigate("/login");
+    }
+    if (response.status === 200) {
+      const updatedUser = { ...user, url: null };
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setShowModal(false);
+    }
+  }
   async function handleFileChange(e) {
     const token = localStorage.getItem("token");
     const file = e.target.files[0];
@@ -110,7 +131,9 @@ const FullScreenModal = ({ setShowModal }) => {
           Upload Photo
         </DialogOption>
         {user?.profileFileId && (
-          <DialogOption $color="#ED4956">Remove Current Photo</DialogOption>
+          <DialogOption $color="#ED4956" onClick={handleRemovePhoto}>
+            Remove Current Photo
+          </DialogOption>
         )}
         <DialogOption onClick={hideModal}>Cancel</DialogOption>
       </DialogContainer>
