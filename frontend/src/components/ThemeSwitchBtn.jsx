@@ -4,7 +4,9 @@ import UserContext from "../helper/UserContext";
 import styled from "styled-components";
 
 const ToggleButton = styled.button`
-  position: relative;
+  position: fixed;
+  top: 1em;
+  right: 1em;
   display: inline-flex;
   align-items: center;
   justify-content: center;

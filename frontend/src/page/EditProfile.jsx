@@ -5,6 +5,7 @@ import UserIcon from "../components/UserIcon";
 import FullScreenModal from "../components/FullScreenModal";
 import { Link, useNavigate } from "react-router-dom";
 import ENDPOINTS from "../api/EndPoints";
+import ThemeSwitcher from "../components/ThemeSwitchBtn";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -150,6 +151,7 @@ const EditProfile = () => {
     <>
       {showModal && <FullScreenModal setShowModal={setShowModal} />}
       <FlexWrapper>
+        <ThemeSwitcher />
         <Container>
           <StyledLink viewTransition to="/">
             <StyledSvg fill="none" stroke="currentColor" viewBox="0 0 24 24">

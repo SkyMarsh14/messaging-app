@@ -2,6 +2,7 @@ import styled from "styled-components";
 import useRoomFetch from "../hooks/useRoomFetch.jsx";
 import UserNav from "../components/UserNav.jsx";
 import { Outlet } from "react-router-dom";
+import ThemeSwitcher from "../components/ThemeSwitchBtn.jsx";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -18,6 +19,7 @@ const Dashboard = () => {
   if (roomData && !loading) {
     return (
       <Wrapper>
+        <ThemeSwitcher />
         <UserNav />
         <OutletContainer>
           <Outlet />

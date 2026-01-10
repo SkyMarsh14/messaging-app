@@ -15,7 +15,7 @@ const Username = styled.div``;
 const Bio = styled.div`
   font-size: 0.5em;
   margin-left: auto;
-  margin-right: 1em;
+  margin-right: 6em;
 `;
 const ChatNav = () => {
   const { selectedRoom } = useContext(UserContext);
