@@ -71,7 +71,8 @@ const FullScreenModal = ({ setShowModal }) => {
     });
     if (response.status === 401) {
       console.error("Invalid or expired authorization");
-      localStorage.clear();
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       return navigate("/login");
     }
     if (response.status === 200) {
@@ -97,7 +98,8 @@ const FullScreenModal = ({ setShowModal }) => {
       });
       if (response.status === 401) {
         console.error("Invalid or expired authorization");
-        localStorage.clear();
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         return navigate("/login");
       }
       if (!response.ok) {

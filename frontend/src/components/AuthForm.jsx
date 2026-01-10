@@ -117,7 +117,8 @@ const AuthForm = ({ type = "login" }) => {
       navigate("/");
     }
     if (json?.errors) {
-      localStorage.clear();
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       setErrors(json.errors);
     }
   }
@@ -157,9 +158,11 @@ const AuthForm = ({ type = "login" }) => {
         navigate("/");
       } else if (json?.errors) {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         return setErrors(json.errors);
       } else if (response.status === 401) {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         return setErrors([
           { msg: "Incorrect username or password. Please try again" },
         ]);

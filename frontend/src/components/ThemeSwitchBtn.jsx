@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 const ToggleButton = styled.button`
   position: fixed;
+  z-index: 1;
   top: 1em;
   right: 1em;
   display: inline-flex;

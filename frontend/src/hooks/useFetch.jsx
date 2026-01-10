@@ -29,6 +29,7 @@ const useFetch = (url, dependancy = []) => {
             console.error("Invalid or expired authorization token.");
             setNeedsAuth(true);
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
             return navigate("/login");
           }
           throw new Error(`Response status: ${response.status}`);

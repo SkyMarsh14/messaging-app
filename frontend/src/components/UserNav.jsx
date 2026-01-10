@@ -99,7 +99,8 @@ const UserNav = () => {
   }
   function handleLogout(e) {
     e.preventDefault();
-    localStorage.clear();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   }
   function handleEditProfile(e) {

@@ -138,7 +138,8 @@ const EditProfile = () => {
       mode: "cors",
     });
     if (response.status === 401) {
-      localStorage.clear();
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       console.error("Invalid or expired authorization token.");
       return navigate("/login");
     }

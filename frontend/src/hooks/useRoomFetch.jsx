@@ -16,7 +16,8 @@ const useRoomFetch = () => {
         const url = ENDPOINTS.userRoom();
         setLoading(true);
         if (!localStorage.getItem("token") || !localStorage.getItem("user")) {
-          localStorage.clear();
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
           navigate("/login");
         }
         const token = localStorage.getItem("token");
@@ -35,7 +36,8 @@ const useRoomFetch = () => {
           if (response.status === 401) {
             console.error("Invalid or expired authorization token.");
             setNeedsAuth(true);
-            localStorage.clear();
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
             return navigate("/login");
           }
           throw new Error(`Response status: ${response.status}`);
