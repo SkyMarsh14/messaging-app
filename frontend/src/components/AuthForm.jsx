@@ -113,6 +113,7 @@ const AuthForm = ({ type = "login" }) => {
   async function handleGuestLogin(e) {
     e.preventDefault();
     const { json, response } = await guestLogin();
+    setUser(json.user);
     if (response.status === 200) {
       navigate("/");
     }
