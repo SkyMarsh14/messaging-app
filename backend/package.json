@@ -11,7 +11,7 @@
     "start": "node app.js",
     "dev": "node --watch app.js",
     "resetdb": "npx prisma db push --force-reset && npx prisma db seed",
-    "build": "npm i --omit=dev && npx prisma migrate && npx prisma db seed"
+    "build": "npm install --omit=dev && npx prisma migrate deploy && npx prisma db seed"
   },
   "keywords": [],
   "author": "",
