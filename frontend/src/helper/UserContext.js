@@ -9,5 +9,7 @@ const UserContext = createContext({
   setChatRoomId: null,
   selectedRoom: null,
   setSelectedRoom: null,
+  preferredTheme: "light",
+  setPreferredTheme: null,
 });
 export default UserContext;

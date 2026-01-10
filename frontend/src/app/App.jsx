@@ -6,20 +6,11 @@ import darkTheme from "../assets/darkTheme.js";
 import lightTheme from "../assets/lightTheme.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useState } from "react";
+import getPreferredTheme from "../helper/getPreferredTheme.js";
 
 const router = createBrowserRouter(routes);
 const App = () => {
-  const prefersDarkTheme = () => {
-    const savedThemePreference = localStorage.getItem("darkMode");
-    if (savedThemePreference === null) {
-      localStorage.setItem("darkMode", "true");
-      return window.matchMedia("(prefers-color-scheme: dark)").matches; // Reads browser theme preferenece
-    }
-    return savedThemePreference == "true";
-  };
-  const [currentTheme, setCurrentTheme] = useState(
-    prefersDarkTheme() ? darkTheme : lightTheme
-  );
+  const [preferredTheme, setPreferredTheme] = useState(getPreferredTheme());
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [roomData, setRoomData] = useState(null);
   const [chatData, setChatData] = useState(null);
@@ -35,13 +26,24 @@ const App = () => {
         setChatData,
         selectedRoom,
         setSelectedRoom,
-        setCurrentTheme,
+        preferredTheme,
+        setPreferredTheme,
       }}
     >
-      <ThemeProvider theme={currentTheme}>
+      <ThemeProvider
+        theme={preferredTheme === "light" ? lightTheme : darkTheme}
+      >
         <GlobalStyle
-          bodyBgColor={currentTheme.primaryBgColor}
-          textColor={currentTheme.primaryTextColor}
+          bodyBgColor={
+            preferredTheme === "light"
+              ? lightTheme.primaryBgColor
+              : darkTheme.primaryBgColor
+          }
+          textColor={
+            preferredTheme === "light"
+              ? lightTheme.primaryTextColor
+              : darkTheme.primaryTextColor
+          }
         />
         <RouterProvider router={router} />
       </ThemeProvider>

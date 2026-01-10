@@ -2,6 +2,7 @@ import styled from "styled-components";
 import StyledLoginHero from "../components/StyledLoginIcon";
 import AuthForm from "../components/AuthForm";
 import hero from "../assets/loginImage.svg";
+import ThemeSwitcher from "../components/ThemeSwitchBtn";
 const Wrapper = styled.div`
   display: flex;
   font-family: "Poppins", sans-serif;
@@ -52,6 +53,7 @@ const AuthPage = ({ type = "login" }) => {
     <Wrapper>
       <LeftElement>
         <AuthForm type={type} />
+        <ThemeSwitcher></ThemeSwitcher>
       </LeftElement>
       <RightElement>
         <HeroHeadingWrapper>
