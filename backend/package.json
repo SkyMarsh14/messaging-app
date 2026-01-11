@@ -8,10 +8,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "npx prisma migrate deploy && npx prisma db seed && node app.js",
     "dev": "node --watch app.js",
     "resetdb": "npx prisma db push --force-reset && npx prisma db seed",
-    "build": "npm install --omit=dev && npx prisma migrate deploy && npx prisma db seed"
+    "build": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
